@@ -5,10 +5,21 @@
 	try {
 		DBManager eDBManager = new DBManager();
 		String appId = request.getParameter("appId");
-		String SQL = "SELECT apps.*, company.companyarea FROM apps, company"
-				 + " WHERE apps.companyid = company.companyid AND apps.appid != 1 AND apps.appid != " + appId
-				 + " ORDER BY apps.appid ASC";
-		json = eDBManager.GetAppList(SQL);
+		String parentId = request.getParameter("parentId");
+		String SQL = "";
+		
+		if (appId != "" && appId != null) {
+			SQL = "SELECT * FROM categorys WHERE appid = "
+				 + appId
+				 + " AND ( parentid = -1 OR parentid = 0 ) "
+				 + " ORDER BY categoryid ASC";
+		};
+		if (parentId != "" && parentId != null) {
+			SQL = "SELECT * FROM categorys WHERE parentid = "
+				 + parentId
+				 + " ORDER BY categoryid ASC";
+		};
+		json = eDBManager.GetCategoryList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());
 	};

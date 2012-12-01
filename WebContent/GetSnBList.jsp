@@ -4,11 +4,11 @@
 	String json = "";
 	try {
 		DBManager eDBManager = new DBManager();
-		String appId = request.getParameter("appId");
-		String SQL = "SELECT apps.*, company.companyarea FROM apps, company"
-				 + " WHERE apps.companyid = company.companyid AND apps.appid != 1"
-				 + " ORDER BY apps.appid ASC";
-		json = eDBManager.GetAppList(SQL);
+		String categoryId = request.getParameter("categoryId");
+		String SQL = "SELECT publish.*, publishtype.typename FROM publish, publishtype"
+			 + " WHERE publish.typeid = publishtype.typeid AND publish.appid = " + "7"
+			 + " ORDER BY publish.publishtime DESC";
+		json = eDBManager.GetSnBList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());
 	};

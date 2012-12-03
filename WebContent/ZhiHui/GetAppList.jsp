@@ -4,15 +4,15 @@
 	String json = "";
 	try {
 		DBManager eDBManager = new DBManager();
-		String categoryId = request.getParameter("categoryId");
-		String SQL = "";
-		
-		SQL = "SELECT * FROM newscontent"
-				+ " WHERE `level` = 1 "
-				+ " AND categoryid = " + categoryId
-				+ " ORDER BY datetime DESC";
-		
-		json = eDBManager.GetNewsList(SQL);
+		String appId = request.getParameter("appId");
+		String[] array = appId.split(";");
+		String SQL = "SELECT apps.*, company.companyarea FROM apps, company"
+				 + " WHERE apps.companyid = company.companyid AND apps.appid != 1";
+		for (int i = 0; i < array.length; i++) {
+			SQL = SQL + " AND apps.appid != " + array[i];
+		};
+		SQL = SQL + " ORDER BY apps.appid ASC";
+		json = eDBManager.GetAppList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());
 	};

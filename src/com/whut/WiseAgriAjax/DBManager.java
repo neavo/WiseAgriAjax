@@ -10,8 +10,8 @@ public class DBManager {
 		try {
 			String dbName = "zhnydb";
 			String userName = "root";
-			//String userPasswd = "lxt";
-			String userPasswd = "";
+			String userPasswd = "lxt";
+			//String userPasswd = "";
 			String url = "jdbc:mysql://localhost/" + dbName + "?user=" + userName + "&password=" + userPasswd;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			eConnection = DriverManager.getConnection(url);
@@ -20,7 +20,7 @@ public class DBManager {
 		}
 		return eConnection;
 	}
-
+	
 	// 获取客户端列表
 	public String GetAppList(String sql) {
 		String json = "[";
@@ -31,24 +31,14 @@ public class DBManager {
 			ResultSet eResultSet = eStatement.executeQuery(sql);
 			while (eResultSet.next()) {
 				json = json + "{";
-				if (true) {
-					json = json + "\"" + "type" + "\"" + " : " + "\"" + "app" + "\"" + ",";
-				};
-				if (eResultSet.getString("appid") != "") {
-					json = json + "\"" + "id" + "\"" + " : " + "\"" + eResultSet.getString("appid") + "\"" + ",";
-				};
-				if (eResultSet.getString("appname") != "") {
-					json = json + "\"" + "name" + "\"" + " : " + "\"" + eResultSet.getString("appname") + "\"" + ",";
-				};
-				if (eResultSet.getString("imageurl1") != "") {
-					json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
-				};
-				if (eResultSet.getString("companyarea") != "") {
-					json = json + "\"" + "location" + "\"" + " : " + "\"" + eResultSet.getString("companyarea") + "\"" + ",";
-				};
-				if (true) {
-					json = json + "\"" + "style" + "\"" + " : " + "\"" + "" + "\"" + ",";
-				};
+				
+				json = json + "\"" + "type" + "\"" + " : " + "\"" + "app" + "\"" + ",";
+				json = json + "\"" + "id" + "\"" + " : " + "\"" + eResultSet.getString("appid") + "\"" + ",";
+				json = json + "\"" + "name" + "\"" + " : " + "\"" + eResultSet.getString("appname") + "\"" + ",";
+				json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
+				json = json + "\"" + "location" + "\"" + " : " + "\"" + eResultSet.getString("companyarea") + "\"" + ",";
+				json = json + "\"" + "style" + "\"" + " : " + "\"" + "" + "\"" + ",";
+				
 				json = json + "},";
 			};
 			eStatement.close();
@@ -72,18 +62,13 @@ public class DBManager {
 			ResultSet eResultSet = eStatement.executeQuery(sql);
 			while (eResultSet.next()) {
 				json = json + "{";
-				if (true) {
-					json = json + "\"" + "type" + "\"" + " : " + "\"" + "category" + "\"" + ",";
-				};
-				if (eResultSet.getString("categoryid") != "") {
-					json = json + "\"" + "id" + "\"" + " : " + "\"" + eResultSet.getString("categoryid") + "\"" + ",";
-				};
-				if (eResultSet.getString("categoryname") != "") {
-					json = json + "\"" + "name" + "\"" + " : " + "\"" + eResultSet.getString("categoryname") + "\"" + ",";
-				};
-				if (eResultSet.getString("categoryimageurl") != "") {
-					json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("categoryimageurl") + "\"" + ",";
-				};
+				
+				json = json + "\"" + "type" + "\"" + " : " + "\"" + "category" + "\"" + ",";
+				json = json + "\"" + "id" + "\"" + " : " + "\"" + eResultSet.getString("categoryid") + "\"" + ",";
+				json = json + "\"" + "name" + "\"" + " : " + "\"" + eResultSet.getString("categoryname") + "\"" + ",";
+				json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("categoryimageurl") + "\"" + ",";
+				json = json + "\"" + "location" + "\"" + " : " + "\"" + "" + "\"" + ",";
+				
 				if (eResultSet.getString("parentid").equals("0")) {
 					json = json + "\"" + "style" + "\"" + " : " + "\"" + "parentCategory" + "\"" + ",";
 				} else {
@@ -104,9 +89,7 @@ public class DBManager {
 						json = json + "\"" + "style" + "\"" + " : " + "\"" + "newQnA" + "\"" + ",";
 					};
 				};
-				if (true) {
-					json = json + "\"" + "location" + "\"" + " : " + "\"" + "" + "\"" + ",";
-				};
+				
 				json = json + "},";
 			};
 			eStatement.close();
@@ -130,30 +113,14 @@ public class DBManager {
 			while (eResultSet.next()) {
 				json = json + "{";
 				
-				if (eResultSet.getString("categoryid") != "") {
-					json = json + "\"" + "categoryId" + "\"" + " : " + "\"" + eResultSet.getString("categoryid") + "\"" + ",";
-				};
-				if (eResultSet.getString("title") != "") {
-					json = json + "\"" + "newsTitle" + "\"" + " : " + "\"" + eResultSet.getString("title") + "\"" + ",";
-				};
-				if (eResultSet.getString("publisher") != "") {
-					json = json + "\"" + "newsPublisher" + "\"" + " : " + "\"" + eResultSet.getString("publisher") + "\"" + ",";
-				};
-				if (eResultSet.getString("datetime") != "") {
-					json = json + "\"" + "dateTime" + "\"" + " : " + "\"" + eResultSet.getString("datetime") + "\"" + ",";
-				};
-				if (eResultSet.getString("imageurl1") != "") {
-					json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
-				};
-				if (eResultSet.getString("videourl") != "") {
-					json = json + "\"" + "videoUrl" + "\"" + " : " + "\"" + eResultSet.getString("videourl") + "\"" + ",";
-				};
-				if (eResultSet.getString("imageurlall") != "") {
-					json = json + "\"" + "imageUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurlall") + "\"" + ",";
-				};
-				if (eResultSet.getString("textcontent") != "") {
-					json = json + "\"" + "newsContent" + "\"" + " : " + "\"" + eResultSet.getString("textcontent") + "\"" + ",";
-				};
+				json = json + "\"" + "categoryId" + "\"" + " : " + "\"" + eResultSet.getString("categoryid") + "\"" + ",";
+				json = json + "\"" + "newsTitle" + "\"" + " : " + "\"" + eResultSet.getString("title") + "\"" + ",";
+				json = json + "\"" + "newsPublisher" + "\"" + " : " + "\"" + eResultSet.getString("publisher") + "\"" + ",";
+				json = json + "\"" + "dateTime" + "\"" + " : " + "\"" + eResultSet.getString("datetime") + "\"" + ",";
+				json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
+				json = json + "\"" + "videoUrl" + "\"" + " : " + "\"" + eResultSet.getString("videourl") + "\"" + ",";
+				json = json + "\"" + "imageUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurlall") + "\"" + ",";
+				json = json + "\"" + "newsContent" + "\"" + " : " + "\"" + eResultSet.getString("textcontent") + "\"" + ",";
 				
 				json = json + "},";
 			};
@@ -178,27 +145,13 @@ public class DBManager {
 			while (eResultSet.next()) {
 				json = json + "{";
 				
-				if (eResultSet.getString("title") != "") {
-					json = json + "\"" + "SnBTitle" + "\"" + " : " + "\"" + eResultSet.getString("title") + "\"" + ",";
-				};
-				if (eResultSet.getString("publisher") != "") {
-					json = json + "\"" + "SnBPublisher" + "\"" + " : " + "\"" + eResultSet.getString("publisher") + "\"" + ",";
-				};
-				if (eResultSet.getString("price") != "") {
-					json = json + "\"" + "SnBPrice" + "\"" + " : " + "\"" + eResultSet.getString("price") + "\"" + ",";
-				};
-				if (eResultSet.getString("unit") != "") {
-					json = json + "\"" + "SnBUnit" + "\"" + " : " + "\"" + eResultSet.getString("unit") + "\"" + ",";
-				};
-				if (eResultSet.getString("area") != "") {
-					json = json + "\"" + "SnBArea" + "\"" + " : " + "\"" + eResultSet.getString("area") + "\"" + ",";
-				};
-				if (eResultSet.getString("content") != "") {
-					json = json + "\"" + "SnBContent" + "\"" + " : " + "\"" + eResultSet.getString("content") + "\"" + ",";
-				};
-				if (eResultSet.getString("imageurl1") != "") {
-					json = json + "\"" + "SnBImage" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
-				};
+				json = json + "\"" + "SnBTitle" + "\"" + " : " + "\"" + eResultSet.getString("title") + "\"" + ",";
+				json = json + "\"" + "SnBPublisher" + "\"" + " : " + "\"" + eResultSet.getString("publisher") + "\"" + ",";
+				json = json + "\"" + "SnBPrice" + "\"" + " : " + "\"" + eResultSet.getString("price") + "\"" + ",";
+				json = json + "\"" + "SnBUnit" + "\"" + " : " + "\"" + eResultSet.getString("unit") + "\"" + ",";
+				json = json + "\"" + "SnBArea" + "\"" + " : " + "\"" + eResultSet.getString("area") + "\"" + ",";
+				json = json + "\"" + "SnBContent" + "\"" + " : " + "\"" + eResultSet.getString("content") + "\"" + ",";
+				json = json + "\"" + "SnBImage" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
 				
 				json = json + "},";
 			};

@@ -7,8 +7,6 @@
 		String appId = request.getParameter("appId");
 		String parentId = request.getParameter("parentId");
 		String SQL = "";
-		System.out.println(appId + ", " + parentId);
-		
 		
 		if (appId != "" && appId != null) {
 			SQL = "SELECT * FROM categorys WHERE appid = "

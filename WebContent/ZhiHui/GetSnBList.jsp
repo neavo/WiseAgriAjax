@@ -5,9 +5,13 @@
 	try {
 		DBManager eDBManager = new DBManager();
 		String categoryId = request.getParameter("categoryId");
-		String SQL = "SELECT publish.*, publishtype.typename FROM publish, publishtype"
-			 + " WHERE publish.typeid = publishtype.typeid AND publish.appid = " + "7"
-			 + " ORDER BY publish.publishtime DESC";
+		String start = request.getParameter("start");
+		String limit = request.getParameter("limit");
+		String SQL = "SELECT * FROM publish"
+				+ " WHERE level = 1 " 
+				+ " AND categoryid = " + categoryId
+				+ " ORDER BY publishtime DESC"
+				+ " LIMIT " + start + ", " + limit;
 		json = eDBManager.GetSnBList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());

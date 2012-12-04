@@ -11,7 +11,6 @@ public class DBManager {
 			String dbName = "zhnydb";
 			String userName = "root";
 			String userPasswd = "lxt";
-			//String userPasswd = "";
 			String url = "jdbc:mysql://localhost/" + dbName + "?user=" + userName + "&password=" + userPasswd;
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			eConnection = DriverManager.getConnection(url);
@@ -74,7 +73,7 @@ public class DBManager {
 				} else {
 					String categoryStyle = eResultSet.getString("flag");
 					if (categoryStyle.equals("0")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "newsCategory" + "\"" + ",";
+						json = json + "\"" + "style" + "\"" + " : " + "\"" + "newsCategory123" + "\"" + ",";
 					};
 					if (categoryStyle.equals("1") || categoryStyle.equals("2")) {
 						json = json + "\"" + "style" + "\"" + " : " + "\"" + "SnBCategory" + "\"" + ",";
@@ -83,10 +82,10 @@ public class DBManager {
 						json = json + "\"" + "style" + "\"" + " : " + "\"" + "QnACategory" + "\"" + ",";
 					};
 					if (categoryStyle.equals("7")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "newSnB" + "\"" + ",";
+						json = json + "\"" + "style" + "\"" + " : " + "\"" + "DoSnB" + "\"" + ",";
 					};
 					if (categoryStyle.equals("8")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "newQnA" + "\"" + ",";
+						json = json + "\"" + "style" + "\"" + " : " + "\"" + "DoQnA" + "\"" + ",";
 					};
 				};
 				

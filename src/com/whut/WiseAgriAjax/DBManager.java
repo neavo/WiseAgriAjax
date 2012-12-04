@@ -40,7 +40,7 @@ public class DBManager {
 			System.out.println(e.getMessage());
 		}
 		
-		return data;
+		return data.replace("null", "");
 	}
 	
 	// 获取客户端列表
@@ -70,7 +70,7 @@ public class DBManager {
 		}
 		
 		json = json + "]";
-		return json;
+		return json.replace("null", "");
 	}
 	
 	// 获取频道列表
@@ -121,7 +121,7 @@ public class DBManager {
 		}
 		
 		json = json + "]";
-		return json;
+		return json.replace("null", "");
 	}
 	
 	// 获取新闻列表
@@ -153,7 +153,7 @@ public class DBManager {
 		}
 		
 		json = json + "]";
-		return json;
+		return json.replace("null", "");
 	}
 	
 	// 获取供求信息
@@ -185,7 +185,7 @@ public class DBManager {
 		}
 		
 		json = json + "]";
-		return json;
+		return json.replace("null", "");
 	}
 	
 	// 发布供求信息

@@ -24,8 +24,6 @@ public class DBManager {
 	public String GetValue(String SQL, String Key) {
 		String data = "";
 		
-		System.out.println(SQL);
-		
 		try {
 			Connection eConnection = GetConnection();
 			Statement eStatement = eConnection.createStatement();
@@ -201,6 +199,40 @@ public class DBManager {
 		}
 		
 		return record;
+	}
+	
+	// 获取问答信息
+	public String GetQnAList(String SQL) {
+		String json = "[";
+		
+		try {
+			Connection eConnection = GetConnection();
+			Statement eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				json = json + "{";
+				
+				json = json + "\"" + "QContent" + "\"" + " : " + "\"" + eResultSet.getString("QContent") + "\"" + ",";
+				json = json + "\"" + "QPublisher" + "\"" + " : " + "\"" + eResultSet.getString("QPublisher") + "\"" + ",";
+				json = json + "\"" + "QPhone" + "\"" + " : " + "\"" + eResultSet.getString("QPhone") + "\"" + ",";
+				json = json + "\"" + "QTime" + "\"" + " : " + "\"" + eResultSet.getString("QTime") + "\"" + ",";
+				json = json + "\"" + "QImage" + "\"" + " : " + "\"" + eResultSet.getString("QImage") + "\"" + ",";
+				json = json + "\"" + "AContent" + "\"" + " : " + "\"" + eResultSet.getString("AContent") + "\"" + ",";
+				json = json + "\"" + "APublisher" + "\"" + " : " + "\"" + eResultSet.getString("APublisher") + "\"" + ",";
+				json = json + "\"" + "APhone" + "\"" + " : " + "\"" + eResultSet.getString("APhone") + "\"" + ",";
+				json = json + "\"" + "ATime" + "\"" + " : " + "\"" + eResultSet.getString("ATime") + "\"" + ",";
+				json = json + "\"" + "AImage" + "\"" + " : " + "\"" + eResultSet.getString("AImage") + "\"" + ",";
+				
+				json = json + "},";
+			};
+			eStatement.close();
+			eConnection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		json = json + "]";
+		return json.replace("null", "");
 	}
 	
 }

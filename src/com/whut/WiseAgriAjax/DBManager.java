@@ -165,14 +165,41 @@ public class DBManager {
 			while (eResultSet.next()) {
 				json = json + "{";
 				
-				json = json + "\"" + "SnBTitle" + "\"" + " : " + "\"" + eResultSet.getString("title") + "\"" + ",";
-				json = json + "\"" + "SnBPublisher" + "\"" + " : " + "\"" + eResultSet.getString("publisher") + "\"" + ",";
-				json = json + "\"" + "SnBPrice" + "\"" + " : " + "\"" + eResultSet.getString("price") + "\"" + ",";
-				json = json + "\"" + "SnBArea" + "\"" + " : " + "\"" + eResultSet.getString("area") + "\"" + ",";
-				json = json + "\"" + "SnBImage" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
-				json = json + "\"" + "SnBTime" + "\"" + " : " + "\"" + eResultSet.getString("publishtime") + "\"" + ",";
-				json = json + "\"" + "SnBPhone" + "\"" + " : " + "\"" + eResultSet.getString("telephone") + "\"" + ",";
-				json = json + "\"" + "SnBContent" + "\"" + " : " + "\"" + eResultSet.getString("content") + "\"" + ",";
+				json = json + "\"" + "SnBType" + "\"" + " : " + "\"" + eResultSet.getString("SnBType") + "\"" + ",";
+				json = json + "\"" + "SnBTitle" + "\"" + " : " + "\"" + eResultSet.getString("SnBTitle") + "\"" + ",";
+				json = json + "\"" + "SnBPublisher" + "\"" + " : " + "\"" + eResultSet.getString("SnBPublisher") + "\"" + ",";
+				json = json + "\"" + "SnBPrice" + "\"" + " : " + "\"" + eResultSet.getString("SnBPrice") + "\"" + ",";
+				json = json + "\"" + "SnBArea" + "\"" + " : " + "\"" + eResultSet.getString("SnBArea") + "\"" + ",";
+				json = json + "\"" + "SnBImage" + "\"" + " : " + "\"" + eResultSet.getString("SnBImage") + "\"" + ",";
+				json = json + "\"" + "SnBTime" + "\"" + " : " + "\"" + eResultSet.getString("SnBTime") + "\"" + ",";
+				json = json + "\"" + "SnBPhone" + "\"" + " : " + "\"" + eResultSet.getString("SnBPhone") + "\"" + ",";
+				json = json + "\"" + "SnBContent" + "\"" + " : " + "\"" + eResultSet.getString("SnBContent") + "\"" + ",";
+				
+				json = json + "},";
+			};
+			eStatement.close();
+			eConnection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		json = json + "]";
+		return json.replace("null", "");
+	}
+	
+	// 获取供求信息类型
+	public String GetSnBType(String SQL) {
+		String json = "[";
+		
+		try {
+			Connection eConnection = GetConnection();
+			Statement eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				json = json + "{";
+				
+				json = json + "\"" + "text" + "\"" + " : " + "\"" + eResultSet.getString("text") + "\"" + ",";
+				json = json + "\"" + "value" + "\"" + " : " + "\"" + eResultSet.getString("value") + "\"" + ",";
 				
 				json = json + "},";
 			};
@@ -212,6 +239,7 @@ public class DBManager {
 			while (eResultSet.next()) {
 				json = json + "{";
 				
+				json = json + "\"" + "QnAType" + "\"" + " : " + "\"" + eResultSet.getString("QnAType") + "\"" + ",";
 				json = json + "\"" + "QContent" + "\"" + " : " + "\"" + eResultSet.getString("QContent") + "\"" + ",";
 				json = json + "\"" + "QPublisher" + "\"" + " : " + "\"" + eResultSet.getString("QPublisher") + "\"" + ",";
 				json = json + "\"" + "QPhone" + "\"" + " : " + "\"" + eResultSet.getString("QPhone") + "\"" + ",";
@@ -233,6 +261,47 @@ public class DBManager {
 		
 		json = json + "]";
 		return json.replace("null", "");
+	}
+	
+	// 获取问答信息类型
+	public String GetQnAType(String SQL) {
+		String json = "[";
+		
+		try {
+			Connection eConnection = GetConnection();
+			Statement eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				json = json + "{";
+				
+				json = json + "\"" + "text" + "\"" + " : " + "\"" + eResultSet.getString("text") + "\"" + ",";
+				json = json + "\"" + "value" + "\"" + " : " + "\"" + eResultSet.getString("value") + "\"" + ",";
+				
+				json = json + "},";
+			};
+			eStatement.close();
+			eConnection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		json = json + "]";
+		return json.replace("null", "");
+	}
+	
+	// 发布问答信息
+	public int DoQnA(String SQL) {
+		int record = 0;
+		
+		try {
+			Connection eConnection = GetConnection();
+			Statement eStatement = eConnection.createStatement();
+			record = eStatement.executeUpdate(SQL);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return record;
 	}
 	
 }

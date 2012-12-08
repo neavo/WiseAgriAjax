@@ -7,11 +7,16 @@
 		String categoryId = request.getParameter("categoryId");
 		String start = request.getParameter("start");
 		String limit = request.getParameter("limit");
-		String SQL = "SELECT * FROM publish"
-				+ " WHERE level = 1 " 
-				+ " AND categoryid = " + categoryId
-				+ " ORDER BY publishtime DESC"
-				+ " LIMIT " + start + ", " + limit;
+				
+		String SQL = "SELECT"
+			 + " publishtype.typename AS SnBType,"
+			 + " publish.title AS SnBTitle, publish.publisher AS SnBPublisher, publish.price AS SnBPrice, publish.area AS SnBArea,"
+			 + " publish.imageurl1 AS SnBImage, publish.publishtime AS SnBTime, publish.telephone AS SnBPhone, publish.content AS SnBContent"
+			 + " FROM publish, publishtype"
+			 + " WHERE publish.level = 1 AND publish.typeid = publishtype.typeid AND publish.categoryid = " + categoryId
+			 + " ORDER BY publishtime DESC"
+			 + " LIMIT " + start + ", " + limit;
+			
 		json = eDBManager.GetSnBList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());

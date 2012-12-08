@@ -14,6 +14,7 @@
 		String SnBContent = request.getParameter("SnBContent");
 		String SnBCID = request.getParameter("SnBCID");
 		String SnBFlag = request.getParameter("SnBFlag");
+		String SnBType = request.getParameter("SnBType");
 		String appid = eDBManager.GetValue("SELECT appid FROM categorys WHERE categoryid = " + SnBCID + " LIMIT 1", "appid");
 		String categoryid = eDBManager.GetValue("SELECT categoryid FROM categorys WHERE parentid !=0 AND flag = " + SnBFlag + " AND appid  = " + appid + " LIMIT 1", "categoryid");
 		
@@ -27,7 +28,7 @@
 			 + " ( "
 			 + " \"" + SnBTitle + "\"," + " \"" + SnBPublisher + "\"," + " \"" + SnBPrice + "\"," + " \"" + SnBArea + "\", "
 			 + " \"" + SnBTime + "\"," + " \"" + SnBPhone + "\"," + " \"" + SnBContent + "\"," + " \"" + categoryid + "\", "
-			 + " \"" + appid + "\"," + " \"" + (Integer.parseInt(SnBFlag) - 1) + "\"," + " \"1\""
+			 + " \"" + appid + "\"," + " \"" + (Integer.parseInt(SnBFlag) - 1) + "\"," + " \"" + SnBType + "\""
 			 + " ) ";
 		
 		if (eDBManager.DoSnB(SQL) != 0) {

@@ -10,6 +10,7 @@
 		String QContent = request.getParameter("QContent");
 		String QnATime = request.getParameter("QnATime");
 		String QnACID = request.getParameter("QnACID");
+		String QnAType = request.getParameter("QnAType");
 		String appid = eDBManager.GetValue("SELECT appid FROM categorys WHERE categoryid = " + QnACID + " LIMIT 1", "appid");
 		String categoryid = eDBManager.GetValue("SELECT categoryid FROM categorys WHERE parentid !=0 AND flag = 3  AND appid  = " + appid + " LIMIT 1", "categoryid");
 		
@@ -21,10 +22,10 @@
 			 + " VALUES"
 			 + " ( "
 			 + " \"" + QPublisher + "\"," + " \"" + QPhone + "\"," + " \"" + QContent + "\"," + " \"" + QnATime + "\", "
-			 + " \"" + appid + "\"," + " \"" + categoryid + "\"," + " \"1\""
+			 + " \"" + appid + "\"," + " \"" + categoryid + "\"," + " \"" + QnAType + "\""
 			 + " ) ";
 		
-		if (eDBManager.DoSnB(SQL) != 0) {
+		if (eDBManager.DoQnA(SQL) != 0) {
 			json = "{ \"success\" : \"true\", \"msg\" : \"发布成功\"}";
 		} else {
 			json = "{ \"success\" : \"false\", \"msg\" : \"发布失败\"}";

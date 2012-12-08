@@ -9,12 +9,13 @@
 		String limit = request.getParameter("limit");
 		String appId = eDBManager.GetValue("SELECT appid FROM categorys WHERE categoryid = " + categoryId + " LIMIT 1", "appid");
 		String SQL = "SELECT"
-				+ " question.question AS QContent, question.publisher AS QPublisher, question.telephone AS QPhone, question.publishtime AS QTime, question.imageurl1 AS QImage,"
-				+ " answer.answer AS AContent, answer.publisher AS APublisher, answer.telephone AS APhone, answer.publishtime AS ATime, answer.imageurl1 AS AImage"
-				+ " FROM question, answer"
-				+ " WHERE question.appid = " + appId + " AND question.questionid = answer.questionid"
-				+ " ORDER BY question.publishtime DESC"
-				+ " LIMIT " + start + ", " + limit;
+			 + " publishtype.typename AS QnAType,"
+			 + " question.question AS QContent, question.publisher AS QPublisher, question.telephone AS QPhone, question.publishtime AS QTime, question.imageurl1 AS QImage,"
+			 + " answer.answer AS AContent, answer.publisher AS APublisher, answer.telephone AS APhone, answer.publishtime AS ATime, answer.imageurl1 AS AImage"
+			 + " FROM question, answer, publishtype"
+			 + " WHERE question.questionid = answer.questionid AND question.questiontype = publishtype.typeid AND question.appid = " + appId
+			 + " ORDER BY question.publishtime DESC"
+			 + " LIMIT " + start + ", " + limit;
 		json = eDBManager.GetQnAList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());

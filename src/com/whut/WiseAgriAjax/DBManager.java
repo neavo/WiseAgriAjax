@@ -102,6 +102,9 @@ public class DBManager {
 					if (categoryStyle.equals("3")) {
 						json = json + "\"" + "style" + "\"" + " : " + "\"" + "QnACategory" + "\"" + ",";
 					};
+					if (categoryStyle.equals("4")) {
+						json = json + "\"" + "style" + "\"" + " : " + "\"" + "ExCategory" + "\"" + ",";
+					};
 					if (categoryStyle.equals("7")) {
 						json = json + "\"" + "style" + "\"" + " : " + "\"" + "DoSnB" + "\"" + ",";
 					};
@@ -302,6 +305,36 @@ public class DBManager {
 		}
 		
 		return record;
+	}
+	
+	// 获取专家列表
+	public String GetExList(String SQL) {
+		String json = "[";
+		
+		try {
+			Connection eConnection = GetConnection();
+			Statement eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				json = json + "{";
+				
+				json = json + "\"" + "ExName" + "\"" + " : " + "\"" + eResultSet.getString("ExName") + "\"" + ",";
+				json = json + "\"" + "ExImage" + "\"" + " : " + "\"" + eResultSet.getString("ExImage") + "\"" + ",";
+				json = json + "\"" + "ExTitle" + "\"" + " : " + "\"" + eResultSet.getString("ExTitle") + "\"" + ",";
+				json = json + "\"" + "ExPosition" + "\"" + " : " + "\"" + eResultSet.getString("ExPosition") + "\"" + ",";
+				json = json + "\"" + "ExPhone" + "\"" + " : " + "\"" + eResultSet.getString("ExPhone") + "\"" + ",";
+				json = json + "\"" + "ExConent" + "\"" + " : " + "\"" + eResultSet.getString("ExConent") + "\"" + ",";
+				
+				json = json + "},";
+			};
+			eStatement.close();
+			eConnection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		json = json + "]";
+		return json.replace("null", "");
 	}
 	
 }

@@ -336,5 +336,48 @@ public class DBManager {
 		json = json + "]";
 		return json.replace("null", "");
 	}
+
+	// 获取问答信息
+	public String GetFeedBack(String SQL) {
+		String json = "[";
+		
+		try {
+			Connection eConnection = GetConnection();
+			Statement eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				json = json + "{";
+				
+				json = json + "\"" + "QContent" + "\"" + " : " + "\"" + eResultSet.getString("QContent") + "\"" + ",";
+				json = json + "\"" + "QTime" + "\"" + " : " + "\"" + eResultSet.getString("QTime") + "\"" + ",";
+				json = json + "\"" + "AContent" + "\"" + " : " + "\"" + eResultSet.getString("AContent") + "\"" + ",";
+				json = json + "\"" + "ATime" + "\"" + " : " + "\"" + eResultSet.getString("ATime") + "\"" + ",";
+				
+				json = json + "},";
+			};
+			eStatement.close();
+			eConnection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		json = json + "]";
+		return json.replace("null", "");
+	}
+
+	// 发布反馈意见
+	public int DoFeedBack(String SQL) {
+		int record = 0;
+		
+		try {
+			Connection eConnection = GetConnection();
+			Statement eStatement = eConnection.createStatement();
+			record = eStatement.executeUpdate(SQL);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return record;
+	}
 	
 }

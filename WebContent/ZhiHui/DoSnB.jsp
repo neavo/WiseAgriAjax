@@ -39,7 +39,7 @@
 	} catch (Exception e) {
 		System.out.println(e.getMessage());
 	};
-	
+
 	if (request.getParameter("callback") != null) {
 		response.setContentType("text/javascript;charset=UTF-8");
 		response.getWriter().write(request.getParameter("callback") + "(" + json + ");");
@@ -47,5 +47,5 @@
 		response.setContentType("application/x-json;charset=UTF-8");
 		response.getWriter().write(json);
 	};
-
+	
 %>

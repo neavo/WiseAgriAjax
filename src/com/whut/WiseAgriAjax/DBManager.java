@@ -1,6 +1,11 @@
 package com.whut.WiseAgriAjax;
 
-import java.sql. * ;
+import java.sql.* ;
+import java.util.ArrayList;
+import java.util.List;
+import com.whut.ZhiHuiBean.*;
+import org.apache.commons.dbutils.DbUtils;
+import net.sf.json.JSONArray;
 
 public class DBManager {
 	
@@ -20,363 +25,361 @@ public class DBManager {
 		return eConnection;
 	}
 	
-	// 获取字段的值
 	public String GetValue(String SQL, String Key) {
 		String data = "";
-		
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+
 		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
 				data = data + eResultSet.getString(Key);
-			};
-			
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			}
+			data = data.replace("null", "");
 		}
-		
-		return data.replace("null", "");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		} 
+		finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return data;
 	}
 	
 	// 获取客户端列表
-	public String GetAppList(String SQL) {
-		String json = "[";
+	public String GetAppList(String SQL){
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+		
+	    List<App> apps = new ArrayList<App>();
+	    App app = null;
 		
 		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "type" + "\"" + " : " + "\"" + "app" + "\"" + ",";
-				json = json + "\"" + "id" + "\"" + " : " + "\"" + eResultSet.getString("appid") + "\"" + ",";
-				json = json + "\"" + "name" + "\"" + " : " + "\"" + eResultSet.getString("appname") + "\"" + ",";
-				json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
-				json = json + "\"" + "location" + "\"" + " : " + "\"" + eResultSet.getString("companyarea") + "\"" + ",";
-				json = json + "\"" + "style" + "\"" + " : " + "\"" + "" + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+				app = new App();
+			    app.setType("app");
+			    app.setId(eResultSet.getString("appid"));
+			    app.setName(eResultSet.getString("appname"));
+			    app.setIconUrl(eResultSet.getString("imageurl1"));
+			    app.setLocation(eResultSet.getString("companyarea"));
+			    app.setStyle("");
+			    apps.add(app);
+			}
+		    json = json + JSONArray.fromObject(apps).toString();
+			json = json.replace("null", "");			
 		}
-		
-		json = json + "]";
-		return json.replace("null", "");
+		catch (Exception e)	{
+			System.out.println(e.getMessage());
+		} 
+		finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return json;
 	}
 	
 	// 获取频道列表
+	
 	public String GetCategoryList(String SQL) {
-		String json = "[";
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+		
+	    List<Category> categorys = new ArrayList<Category>();
+	    Category category = null;
 		
 		try {
-			
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "type" + "\"" + " : " + "\"" + "category" + "\"" + ",";
-				json = json + "\"" + "id" + "\"" + " : " + "\"" + eResultSet.getString("categoryid") + "\"" + ",";
-				json = json + "\"" + "name" + "\"" + " : " + "\"" + eResultSet.getString("categoryname") + "\"" + ",";
-				json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("categoryimageurl") + "\"" + ",";
-				json = json + "\"" + "location" + "\"" + " : " + "\"" + "" + "\"" + ",";
-				
+				category = new Category();
+			    category.setType("category");
+			    category.setId(eResultSet.getString("categoryid"));
+			    category.setName(eResultSet.getString("categoryname"));
+			    category.setIconUrl(eResultSet.getString("categoryimageurl"));
+			    category.setLocation("");
+			    
 				if (eResultSet.getString("parentid").equals("0")) {
-					json = json + "\"" + "style" + "\"" + " : " + "\"" + "parentCategory" + "\"" + ",";
-				} else {
+				    category.setStyle("parentCategory");
+				} 
+				else{
 					String categoryStyle = eResultSet.getString("flag");
-					if (categoryStyle.equals("0")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "newsCategory" + "\"" + ",";
-					};
+					if (categoryStyle.equals("0")){
+					    category.setStyle("newsCategory");
+					}
 					if (categoryStyle.equals("1") || categoryStyle.equals("2")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "SnBCategory" + "\"" + ",";
-					};
+					    category.setStyle("SnBCategory");
+					}
 					if (categoryStyle.equals("3")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "QnACategory" + "\"" + ",";
-					};
-					if (categoryStyle.equals("4")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "ExCategory" + "\"" + ",";
-					};
+					    category.setStyle("QnACategory");
+					}
 					if (categoryStyle.equals("7")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "DoSnB" + "\"" + ",";
-					};
+					    category.setStyle("DoSnB");
+					}
 					if (categoryStyle.equals("8")) {
-						json = json + "\"" + "style" + "\"" + " : " + "\"" + "DoQnA" + "\"" + ",";
-					};
-				};
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+					    category.setStyle("DoQnA");
+					}
+				}
+			    categorys.add(category);
+			}
+		    json = json + JSONArray.fromObject(categorys).toString();
+			json = json.replace("null", "");			
 		}
-		
-		json = json + "]";
-		return json.replace("null", "");
+		catch (Exception e)	{
+			System.out.println(e.getMessage());
+		} 
+		finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return json;
 	}
 	
 	// 获取新闻列表
 	public String GetNewsList(String SQL) {
-		String json = "[";
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+			
+		List<News> news = new ArrayList<News>();
+		News eNews = null;
+			
+		try{
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "categoryId" + "\"" + " : " + "\"" + eResultSet.getString("categoryid") + "\"" + ",";
-				json = json + "\"" + "newsTitle" + "\"" + " : " + "\"" + eResultSet.getString("title") + "\"" + ",";
-				json = json + "\"" + "newsPublisher" + "\"" + " : " + "\"" + eResultSet.getString("publisher") + "\"" + ",";
-				json = json + "\"" + "dateTime" + "\"" + " : " + "\"" + eResultSet.getString("datetime") + "\"" + ",";
-				json = json + "\"" + "iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
-				json = json + "\"" + "videoUrl" + "\"" + " : " + "\"" + eResultSet.getString("videourl") + "\"" + ",";
-				json = json + "\"" + "imageUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurlall") + "\"" + ",";
-				json = json + "\"" + "newsContent" + "\"" + " : " + "\"" + eResultSet.getString("textcontent") + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+				eNews = new News();
+				eNews.setCategoryId(eResultSet.getString("categoryid"));
+				eNews.setNewsTitle(eResultSet.getString("title"));
+				eNews.setNewsPublisher(eResultSet.getString("publisher"));
+				eNews.setDateTime(eResultSet.getString("datetime"));
+				eNews.setIconUrl(eResultSet.getString("imageurl1"));
+				eNews.setVideoUrl(eResultSet.getString("videourl"));
+				eNews.setImageUrl(eResultSet.getString("imageurlall"));
+				eNews.setNewsContent(eResultSet.getString("textcontent"));
+			    news.add(eNews);
+			}
+		    json = json + JSONArray.fromObject(news).toString();
+			json = json.replace("null", "");			
 		}
-		
-		json = json + "]";
-		return json.replace("null", "");
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		} 
+		finally{
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return json;
 	}
 	
 	// 获取供求信息
 	public String GetSnBList(String SQL) {
-		String json = "[";
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+			
+		List<SupplyBuy> supplybuys = new ArrayList<SupplyBuy>();
+		SupplyBuy supplybuy = null;
+			
+		try{
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "SnBType" + "\"" + " : " + "\"" + eResultSet.getString("SnBType") + "\"" + ",";
-				json = json + "\"" + "SnBTitle" + "\"" + " : " + "\"" + eResultSet.getString("SnBTitle") + "\"" + ",";
-				json = json + "\"" + "SnBPublisher" + "\"" + " : " + "\"" + eResultSet.getString("SnBPublisher") + "\"" + ",";
-				json = json + "\"" + "SnBPrice" + "\"" + " : " + "\"" + eResultSet.getString("SnBPrice") + "\"" + ",";
-				json = json + "\"" + "SnBArea" + "\"" + " : " + "\"" + eResultSet.getString("SnBArea") + "\"" + ",";
-				json = json + "\"" + "SnBImage" + "\"" + " : " + "\"" + eResultSet.getString("SnBImage") + "\"" + ",";
-				json = json + "\"" + "SnBTime" + "\"" + " : " + "\"" + eResultSet.getString("SnBTime") + "\"" + ",";
-				json = json + "\"" + "SnBPhone" + "\"" + " : " + "\"" + eResultSet.getString("SnBPhone") + "\"" + ",";
-				json = json + "\"" + "SnBContent" + "\"" + " : " + "\"" + eResultSet.getString("SnBContent") + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+				supplybuy = new SupplyBuy();
+				supplybuy.setSnBType(eResultSet.getString("SnBType"));
+				supplybuy.setSnBTitle(eResultSet.getString("SnBTitle"));
+				supplybuy.setSnBPublisher(eResultSet.getString("SnBPublisher"));
+				supplybuy.setSnBPrice(eResultSet.getString("SnBPrice"));
+				supplybuy.setSnBArea(eResultSet.getString("SnBArea"));
+				supplybuy.setSnBImage(eResultSet.getString("SnBImage"));
+				supplybuy.setSnBTime(eResultSet.getString("SnBTime"));
+				supplybuy.setSnBPhone(eResultSet.getString("SnBPhone"));
+				supplybuy.setSnBContent(eResultSet.getString("SnBContent"));
+				supplybuys.add(supplybuy);
+			}
+		    json = json + JSONArray.fromObject(supplybuys).toString();
+			json = json.replace("null", "");			
 		}
-		
-		json = json + "]";
-		return json.replace("null", "");
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		} 
+		finally{
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return json;
 	}
+	
 	
 	// 获取供求信息类型
 	public String GetSnBType(String SQL) {
-		String json = "[";
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+			
+		List<SupplyBuyType> supplybuytypes = new ArrayList<SupplyBuyType>();
+		SupplyBuyType supplybuytype = null;
+			
+		try{
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "text" + "\"" + " : " + "\"" + eResultSet.getString("text") + "\"" + ",";
-				json = json + "\"" + "value" + "\"" + " : " + "\"" + eResultSet.getString("value") + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+				supplybuytype = new SupplyBuyType();
+				supplybuytype.setText(eResultSet.getString("text"));
+				supplybuytype.setValue(eResultSet.getString("value"));
+				supplybuytypes.add(supplybuytype);
+			}
+		    json = json + JSONArray.fromObject(supplybuytypes).toString();
+			json = json.replace("null", "");			
 		}
-		
-		json = json + "]";
-		return json.replace("null", "");
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		} 
+		finally{
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return json;
 	}
 	
 	// 发布供求信息
 	public int DoSnB(String SQL) {
 		int record = 0;
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+		Connection eConnection = null;
+		Statement eStatement = null;
+		try{
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			record = eStatement.executeUpdate(SQL);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
 		}
-		
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		} 
+		finally{
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
 		return record;
 	}
 	
 	// 获取问答信息
 	public String GetQnAList(String SQL) {
-		String json = "[";
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+			
+		List<Question> questions = new ArrayList<Question>();
+		Question question = null;
+			
+		try{
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "QnAType" + "\"" + " : " + "\"" + eResultSet.getString("QnAType") + "\"" + ",";
-				json = json + "\"" + "QContent" + "\"" + " : " + "\"" + eResultSet.getString("QContent") + "\"" + ",";
-				json = json + "\"" + "QPublisher" + "\"" + " : " + "\"" + eResultSet.getString("QPublisher") + "\"" + ",";
-				json = json + "\"" + "QPhone" + "\"" + " : " + "\"" + eResultSet.getString("QPhone") + "\"" + ",";
-				json = json + "\"" + "QTime" + "\"" + " : " + "\"" + eResultSet.getString("QTime") + "\"" + ",";
-				json = json + "\"" + "QImage" + "\"" + " : " + "\"" + eResultSet.getString("QImage") + "\"" + ",";
-				json = json + "\"" + "AContent" + "\"" + " : " + "\"" + eResultSet.getString("AContent") + "\"" + ",";
-				json = json + "\"" + "APublisher" + "\"" + " : " + "\"" + eResultSet.getString("APublisher") + "\"" + ",";
-				json = json + "\"" + "APhone" + "\"" + " : " + "\"" + eResultSet.getString("APhone") + "\"" + ",";
-				json = json + "\"" + "ATime" + "\"" + " : " + "\"" + eResultSet.getString("ATime") + "\"" + ",";
-				json = json + "\"" + "AImage" + "\"" + " : " + "\"" + eResultSet.getString("AImage") + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+				question = new Question();
+				question.setQnAType(eResultSet.getString("QnAType"));
+				question.setQContent(eResultSet.getString("QContent"));
+				question.setQPublisher(eResultSet.getString("QPublisher"));
+				question.setQPhone(eResultSet.getString("QPhone"));
+				question.setQTime(eResultSet.getString("QTime"));
+				question.setQImage(eResultSet.getString("QImage"));
+				question.setAContent(eResultSet.getString("AContent"));
+				question.setAPublisher(eResultSet.getString("APublisher"));
+				question.setAPhone(eResultSet.getString("APhone"));
+				question.setATime(eResultSet.getString("ATime"));
+				question.setAImage(eResultSet.getString("AImage"));
+				questions.add(question);
+			}
+		    json = json + JSONArray.fromObject(questions).toString();
+			json = json.replace("null", "");			
 		}
-		
-		json = json + "]";
-		return json.replace("null", "");
-	}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		} 
+		finally{
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return json;
+		}
 	
 	// 获取问答信息类型
 	public String GetQnAType(String SQL) {
-		String json = "[";
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+			
+		List<QuestionType> questiontypes = new ArrayList<QuestionType>();
+		QuestionType questiontype = null;
+			
+		try{
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "text" + "\"" + " : " + "\"" + eResultSet.getString("text") + "\"" + ",";
-				json = json + "\"" + "value" + "\"" + " : " + "\"" + eResultSet.getString("value") + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+				questiontype = new QuestionType();
+				questiontype.setText(eResultSet.getString("text"));
+				questiontype.setValue(eResultSet.getString("value"));
+				questiontypes.add(questiontype);
+			}
+		    json = json + JSONArray.fromObject(questiontypes).toString();
+			json = json.replace("null", "");			
 		}
-		
-		json = json + "]";
-		return json.replace("null", "");
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		} 
+		finally{
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
+		return json;
 	}
 	
 	// 发布问答信息
 	public int DoQnA(String SQL) {
 		int record = 0;
+		Connection eConnection = null;
+		Statement eStatement = null;
 		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
+		try{
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
 			record = eStatement.executeUpdate(SQL);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
 		}
-		
-		return record;
-	}
-	
-	// 获取专家列表
-	public String GetExList(String SQL) {
-		String json = "[";
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
-			ResultSet eResultSet = eStatement.executeQuery(SQL);
-			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "ExName" + "\"" + " : " + "\"" + eResultSet.getString("ExName") + "\"" + ",";
-				json = json + "\"" + "ExImage" + "\"" + " : " + "\"" + eResultSet.getString("ExImage") + "\"" + ",";
-				json = json + "\"" + "ExTitle" + "\"" + " : " + "\"" + eResultSet.getString("ExTitle") + "\"" + ",";
-				json = json + "\"" + "ExPosition" + "\"" + " : " + "\"" + eResultSet.getString("ExPosition") + "\"" + ",";
-				json = json + "\"" + "ExPhone" + "\"" + " : " + "\"" + eResultSet.getString("ExPhone") + "\"" + ",";
-				json = json + "\"" + "ExConent" + "\"" + " : " + "\"" + eResultSet.getString("ExConent") + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
+		catch (Exception e){
 			System.out.println(e.getMessage());
-		}
-		
-		json = json + "]";
-		return json.replace("null", "");
-	}
-
-	// 获取问答信息
-	public String GetFeedBack(String SQL) {
-		String json = "[";
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
-			ResultSet eResultSet = eStatement.executeQuery(SQL);
-			while (eResultSet.next()) {
-				json = json + "{";
-				
-				json = json + "\"" + "QContent" + "\"" + " : " + "\"" + eResultSet.getString("QContent") + "\"" + ",";
-				json = json + "\"" + "QTime" + "\"" + " : " + "\"" + eResultSet.getString("QTime") + "\"" + ",";
-				json = json + "\"" + "AContent" + "\"" + " : " + "\"" + eResultSet.getString("AContent") + "\"" + ",";
-				json = json + "\"" + "ATime" + "\"" + " : " + "\"" + eResultSet.getString("ATime") + "\"" + ",";
-				
-				json = json + "},";
-			};
-			eStatement.close();
-			eConnection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-		json = json + "]";
-		return json.replace("null", "");
-	}
-
-	// 发布反馈意见
-	public int DoFeedBack(String SQL) {
-		int record = 0;
-		
-		try {
-			Connection eConnection = GetConnection();
-			Statement eStatement = eConnection.createStatement();
-			record = eStatement.executeUpdate(SQL);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
+		} 
+		finally{
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}		
 		return record;
 	}
 	

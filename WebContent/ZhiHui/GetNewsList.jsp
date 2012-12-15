@@ -5,10 +5,13 @@
 	try {
 		DBManager eDBManager = new DBManager();
 		String categoryId = request.getParameter("categoryId");
+		String start = request.getParameter("start");
+		String limit = request.getParameter("limit");
 		String SQL = "SELECT * FROM newscontent"
 				+ " WHERE level = 1 "
 				+ " AND categoryid = " + categoryId
-				+ " ORDER BY datetime DESC";
+				+ " ORDER BY datetime DESC"
+				+ " LIMIT " + start + ", " + limit;
 		json = eDBManager.GetNewsList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());

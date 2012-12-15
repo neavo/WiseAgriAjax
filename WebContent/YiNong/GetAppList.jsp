@@ -8,7 +8,7 @@
 		String eKeyWord = request.getParameter("keyWord");
 		json = new WebService().GetAppList(ePage, eLimit, eKeyWord);
 	} catch (Exception e) {
-		System.out.println(e.getMessage());
+		System.out.println("jsp"+e.getMessage());
 	};
 	
 	if (request.getParameter("callback") != null) {

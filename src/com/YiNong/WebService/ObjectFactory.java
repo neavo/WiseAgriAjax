@@ -38,75 +38,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetTownNewsListResponse }
-     * 
-     */
-    public GetTownNewsListResponse createGetTownNewsListResponse() {
-        return new GetTownNewsListResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetVideoList }
-     * 
-     */
-    public GetVideoList createGetVideoList() {
-        return new GetVideoList();
-    }
-
-    /**
      * Create an instance of {@link GetZPInfoResponse }
      * 
      */
     public GetZPInfoResponse createGetZPInfoResponse() {
         return new GetZPInfoResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetQGListResponse }
-     * 
-     */
-    public GetQGListResponse createGetQGListResponse() {
-        return new GetQGListResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetWTList }
-     * 
-     */
-    public GetWTList createGetWTList() {
-        return new GetWTList();
-    }
-
-    /**
-     * Create an instance of {@link GetVideoInfoResponse }
-     * 
-     */
-    public GetVideoInfoResponse createGetVideoInfoResponse() {
-        return new GetVideoInfoResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetQGList }
-     * 
-     */
-    public GetQGList createGetQGList() {
-        return new GetQGList();
-    }
-
-    /**
-     * Create an instance of {@link GetTownFarmhouseList }
-     * 
-     */
-    public GetTownFarmhouseList createGetTownFarmhouseList() {
-        return new GetTownFarmhouseList();
-    }
-
-    /**
-     * Create an instance of {@link CreateUserResponse }
-     * 
-     */
-    public CreateUserResponse createCreateUserResponse() {
-        return new CreateUserResponse();
     }
 
     /**
@@ -118,6 +54,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link UserBindingResponse }
+     * 
+     */
+    public UserBindingResponse createUserBindingResponse() {
+        return new UserBindingResponse();
+    }
+
+    /**
      * Create an instance of {@link GetQZInfoResponse }
      * 
      */
@@ -126,11 +70,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UserBindingResponse }
+     * Create an instance of {@link AddGY }
      * 
      */
-    public UserBindingResponse createUserBindingResponse() {
-        return new UserBindingResponse();
+    public AddGY createAddGY() {
+        return new AddGY();
     }
 
     /**
@@ -142,35 +86,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateUser }
-     * 
-     */
-    public CreateUser createCreateUser() {
-        return new CreateUser();
-    }
-
-    /**
      * Create an instance of {@link GetGYInfoResponse }
      * 
      */
     public GetGYInfoResponse createGetGYInfoResponse() {
         return new GetGYInfoResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetWDInfo }
-     * 
-     */
-    public GetWDInfo createGetWDInfo() {
-        return new GetWDInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetQZInfo }
-     * 
-     */
-    public GetQZInfo createGetQZInfo() {
-        return new GetQZInfo();
     }
 
     /**
@@ -182,27 +102,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetZPListResponse }
+     * Create an instance of {@link GetQZInfo }
      * 
      */
-    public GetZPListResponse createGetZPListResponse() {
-        return new GetZPListResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetWDInfoResponse }
-     * 
-     */
-    public GetWDInfoResponse createGetWDInfoResponse() {
-        return new GetWDInfoResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetTownFarmhouseListResponse }
-     * 
-     */
-    public GetTownFarmhouseListResponse createGetTownFarmhouseListResponse() {
-        return new GetTownFarmhouseListResponse();
+    public GetQZInfo createGetQZInfo() {
+        return new GetQZInfo();
     }
 
     /**
@@ -214,11 +118,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetQZListResponse }
+     * Create an instance of {@link GetTownFarmhouseListResponse }
      * 
      */
-    public GetQZListResponse createGetQZListResponse() {
-        return new GetQZListResponse();
+    public GetTownFarmhouseListResponse createGetTownFarmhouseListResponse() {
+        return new GetTownFarmhouseListResponse();
+    }
+
+    /**
+     * Create an instance of {@link AddGYResponse }
+     * 
+     */
+    public AddGYResponse createAddGYResponse() {
+        return new AddGYResponse();
     }
 
     /**
@@ -227,30 +139,6 @@ public class ObjectFactory {
      */
     public GetVideoInfo createGetVideoInfo() {
         return new GetVideoInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetGYInfo }
-     * 
-     */
-    public GetGYInfo createGetGYInfo() {
-        return new GetGYInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetQZList }
-     * 
-     */
-    public GetQZList createGetQZList() {
-        return new GetQZList();
-    }
-
-    /**
-     * Create an instance of {@link UserLogin }
-     * 
-     */
-    public UserLogin createUserLogin() {
-        return new UserLogin();
     }
 
     /**
@@ -286,11 +174,227 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AddZPResponse }
+     * 
+     */
+    public AddZPResponse createAddZPResponse() {
+        return new AddZPResponse();
+    }
+
+    /**
      * Create an instance of {@link GetTownList }
      * 
      */
     public GetTownList createGetTownList() {
         return new GetTownList();
+    }
+
+    /**
+     * Create an instance of {@link GetTowPicList }
+     * 
+     */
+    public GetTowPicList createGetTowPicList() {
+        return new GetTowPicList();
+    }
+
+    /**
+     * Create an instance of {@link GetTownSpecialtyList }
+     * 
+     */
+    public GetTownSpecialtyList createGetTownSpecialtyList() {
+        return new GetTownSpecialtyList();
+    }
+
+    /**
+     * Create an instance of {@link GetWTListResponse }
+     * 
+     */
+    public GetWTListResponse createGetWTListResponse() {
+        return new GetWTListResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetNewsList }
+     * 
+     */
+    public GetNewsList createGetNewsList() {
+        return new GetNewsList();
+    }
+
+    /**
+     * Create an instance of {@link GetTownNewsList }
+     * 
+     */
+    public GetTownNewsList createGetTownNewsList() {
+        return new GetTownNewsList();
+    }
+
+    /**
+     * Create an instance of {@link GetQGInfoResponse }
+     * 
+     */
+    public GetQGInfoResponse createGetQGInfoResponse() {
+        return new GetQGInfoResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetNewsListResponse }
+     * 
+     */
+    public GetNewsListResponse createGetNewsListResponse() {
+        return new GetNewsListResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetTownNewsListResponse }
+     * 
+     */
+    public GetTownNewsListResponse createGetTownNewsListResponse() {
+        return new GetTownNewsListResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetVideoList }
+     * 
+     */
+    public GetVideoList createGetVideoList() {
+        return new GetVideoList();
+    }
+
+    /**
+     * Create an instance of {@link AddQG }
+     * 
+     */
+    public AddQG createAddQG() {
+        return new AddQG();
+    }
+
+    /**
+     * Create an instance of {@link GetQGListResponse }
+     * 
+     */
+    public GetQGListResponse createGetQGListResponse() {
+        return new GetQGListResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetVideoInfoResponse }
+     * 
+     */
+    public GetVideoInfoResponse createGetVideoInfoResponse() {
+        return new GetVideoInfoResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetWTList }
+     * 
+     */
+    public GetWTList createGetWTList() {
+        return new GetWTList();
+    }
+
+    /**
+     * Create an instance of {@link GetTownFarmhouseList }
+     * 
+     */
+    public GetTownFarmhouseList createGetTownFarmhouseList() {
+        return new GetTownFarmhouseList();
+    }
+
+    /**
+     * Create an instance of {@link GetQGList }
+     * 
+     */
+    public GetQGList createGetQGList() {
+        return new GetQGList();
+    }
+
+    /**
+     * Create an instance of {@link CreateUserResponse }
+     * 
+     */
+    public CreateUserResponse createCreateUserResponse() {
+        return new CreateUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateUser }
+     * 
+     */
+    public CreateUser createCreateUser() {
+        return new CreateUser();
+    }
+
+    /**
+     * Create an instance of {@link GetWDInfo }
+     * 
+     */
+    public GetWDInfo createGetWDInfo() {
+        return new GetWDInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetZPListResponse }
+     * 
+     */
+    public GetZPListResponse createGetZPListResponse() {
+        return new GetZPListResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetWDInfoResponse }
+     * 
+     */
+    public GetWDInfoResponse createGetWDInfoResponse() {
+        return new GetWDInfoResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetQZListResponse }
+     * 
+     */
+    public GetQZListResponse createGetQZListResponse() {
+        return new GetQZListResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetQZList }
+     * 
+     */
+    public GetQZList createGetQZList() {
+        return new GetQZList();
+    }
+
+    /**
+     * Create an instance of {@link GetGYInfo }
+     * 
+     */
+    public GetGYInfo createGetGYInfo() {
+        return new GetGYInfo();
+    }
+
+    /**
+     * Create an instance of {@link AddQGResponse }
+     * 
+     */
+    public AddQGResponse createAddQGResponse() {
+        return new AddQGResponse();
+    }
+
+    /**
+     * Create an instance of {@link UserLogin }
+     * 
+     */
+    public UserLogin createUserLogin() {
+        return new UserLogin();
+    }
+
+    /**
+     * Create an instance of {@link AddQZResponse }
+     * 
+     */
+    public AddQZResponse createAddQZResponse() {
+        return new AddQZResponse();
     }
 
     /**
@@ -310,27 +414,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetTownSpecialtyList }
+     * Create an instance of {@link GetTownListResponse }
      * 
      */
-    public GetTownSpecialtyList createGetTownSpecialtyList() {
-        return new GetTownSpecialtyList();
-    }
-
-    /**
-     * Create an instance of {@link GetTowPicList }
-     * 
-     */
-    public GetTowPicList createGetTowPicList() {
-        return new GetTowPicList();
-    }
-
-    /**
-     * Create an instance of {@link GetWTListResponse }
-     * 
-     */
-    public GetWTListResponse createGetWTListResponse() {
-        return new GetWTListResponse();
+    public GetTownListResponse createGetTownListResponse() {
+        return new GetTownListResponse();
     }
 
     /**
@@ -339,14 +427,6 @@ public class ObjectFactory {
      */
     public GetZPInfo createGetZPInfo() {
         return new GetZPInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetTownListResponse }
-     * 
-     */
-    public GetTownListResponse createGetTownListResponse() {
-        return new GetTownListResponse();
     }
 
     /**
@@ -374,19 +454,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetNewsList }
+     * Create an instance of {@link AddZP }
      * 
      */
-    public GetNewsList createGetNewsList() {
-        return new GetNewsList();
-    }
-
-    /**
-     * Create an instance of {@link GetTownNewsList }
-     * 
-     */
-    public GetTownNewsList createGetTownNewsList() {
-        return new GetTownNewsList();
+    public AddZP createAddZP() {
+        return new AddZP();
     }
 
     /**
@@ -398,19 +470,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetQGInfoResponse }
+     * Create an instance of {@link AddQZ }
      * 
      */
-    public GetQGInfoResponse createGetQGInfoResponse() {
-        return new GetQGInfoResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetNewsListResponse }
-     * 
-     */
-    public GetNewsListResponse createGetNewsListResponse() {
-        return new GetNewsListResponse();
+    public AddQZ createAddQZ() {
+        return new AddQZ();
     }
 
 }

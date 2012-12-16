@@ -217,6 +217,7 @@ public class DBManager {
 				supplybuys.add(supplybuy);
 			}
 		    json = json + JSONArray.fromObject(supplybuys).toString();
+			json = json.replace("snB", "SnB");			
 			json = json.replace("null", "");			
 		}
 		catch (Exception e){

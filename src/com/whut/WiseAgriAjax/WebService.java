@@ -1,27 +1,38 @@
 package com.whut.WiseAgriAjax;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import com.YiNong.WebService.AppAgent;
 import com.YiNong.WebService.AppAgentSoap;
 
 public class WebService {
 	static AppAgentSoap eAppAgentSoap = new AppAgent().getAppAgentSoap();
-	// 获取产品页数
-	public String GetAppPage(int limit, String keyWord)
-	{
-		String json = "";
-		try {
-			
-			json = json.replace("categoryId", "id");
-			json = json.replace("categoryName", "name");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		return json;		
-	}
 	
-	// 获取翼农App列表  
-	public static String GetAppList(String page, String limit, String keyWord) {
+/*	
+ *获取翼农App列表  
+  categoryId	int	目标频道id	
+  categoryName	int	目标频道名称
+  iconUrl	string	目标频道图标
+  trialTime	string	目标频道试用时间	单位：天
+  categoryPrice	string 	目标频道价格	
+  
+    app.setType("app");
+    app.setId(eResultSet.getString("appid"));
+    app.setName(eResultSet.getString("appname"));
+    app.setIconUrl(eResultSet.getString("imageurl1"));
+    app.setLocation(eResultSet.getString("companyarea"));
+    app.setStyle("");
+*/
+	public String GetAppList(String page, String limit, String keyWord) {
 		String json = "";
 		try {
 			json = eAppAgentSoap.getAppList(Integer.parseInt(page), Integer.parseInt(limit), keyWord);
@@ -32,11 +43,333 @@ public class WebService {
 		}
 		return json;
 	}
+
+/*	
+函数名：GetNewsList
+传入的参数
+名称	类型	说明	备注
+BeginDate	datetime	开始时间	以创建时间为准
+EndDate	datetime	结束时间	以创建时间为准
+PageIndex	int	当前页数	
+PageSize	int	当前条数	
+KeyWord	String	搜索关键字	
+
+返回的JSON数据如下：
+{ “ Pageindex “:1, “PageCount“:10, “RecordCount“:10,”DataList”:
+	[{
+		“Id”:1,
+		“Title”:”农业资讯”,
+		“Content“:”资讯内容”,
+		“CreateTime”:”2010-10-1”
+	},{
+		“Id”:2,
+		“Title”:”农业资讯”,
+		“Content“:”content”,
+		“CreateTime”:”2010-10-1”
+	}]
+}
+	*/
+	public String GetNewsList(int pageIndex, int pageSize, String startDatePara, String endDatePara) {
+		String jsonAll = "";
+		String json = "";
+        try {
+	    	jsonAll = eAppAgentSoap.getNewsList(pageIndex, pageSize,
+				  startDatePara, endDatePara);
+			json = JSONObject.fromObject(jsonAll).getString("dataList");  
+			
+			json = json.replace("Id", "categoryId");
+			json = json.replace("Title", "newsTitle");
+			json = json.replace("Content", "newsContent");
+			json = json.replace("CreateTime", "dateTime");
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return json;
+	}	
+
+/*获取供应信息
+ * 	函数名：GetGYList
+	传入的参数
+	名称	类型	说明	备注
+	StartDate	String	开始时间	以创建时间为准
+	EndDate	string	结束时间	以创建时间为准
+	Pageindex	int	当前页数	
+	Pagesize	int	当前条数
+返回JSON格式如下：
+//供应信息格式
+	[{
+		“Id”:1,
+		“ProductName”:”小麦”,
+“Price “:”面议”,
+“ContectName”:”周先生”,
+“ContentPhone”:”0711-3611645”,
+“BeginTime”:”2012-9-7”,
+“EndTime”:”2012-10-7”,
+“ProductPlace”:”鄂州”,
+“Desc”:”湖北鄂州市周先生大量供应小麦”
+	},{
+		“Id”:2,
+		“ProductName”:”小麦”,
+“Price “:”面议”,
+“ContectName”:”周先生”,
+“ContentPhone”:”0711-3611645”,
+“BeginTime”:”2012-9-7”,
+“EndTime”:”2012-10-7”,
+“ProductPlace”:”鄂州”,
+“Desc”:”湖北鄂州市周先生大量供应小麦”
+	}]
+	private String SnBType;
+	private String SnBTitle;
+	private String SnBPublisher;
+	private String SnBPrice;
+	private String SnBArea;
+	private String SnBImage;
+	private String SnBTime;
+	private String SnBPhone;
+	private String SnBContent;
+*/	
 	
-	//测试
-	public static void main(String[] args) {
-		System.out.println(GetAppList("1","999",""));
-	}
+	public String GetSupplyList(int pageIndex, int pageSize, String startDate, String endDate) {
+		String json = "";
+		JSONArray arrayBefore = null;
+		JSONArray arrayAfter = null;
+       try {
+        	json = eAppAgentSoap.getGYList(pageIndex, pageSize, startDate, endDate);
+        	json = JSONObject.fromObject(json).getString("dataList");  //[{},{},{}]
+        	arrayBefore = JSONArray.fromObject(json);//转换为未添加属性的array
+	
+			arrayAfter = new JSONArray();
+			//为每一个array中的object添加属性
+        	for(int i = 0; i < arrayBefore.size(); i++) {
+        	    JSONObject temp = arrayBefore.getJSONObject(i);
+         		temp.put("SnBType", "0");
+          		temp.put("SnBImage", "");//为object添加三个信息田园未提供的属性
+          		arrayAfter.add(i, temp);
+        	}        	
+        	json = arrayAfter.toString();  //[{},{},{}]
+			//System.out.println(arrayAfter);
+
+			json = json.replace("ProductName", "SnBTitle");
+			json = json.replace("ContectName", "SnBPublisher");
+			json = json.replace("Price", "SnBPrice");
+			json = json.replace("BeginTime", "SnBTime");
+			json = json.replace("ContentPhone", "SnBPhone");
+			json = json.replace("ProductPlace", "SnBArea");
+			json = json.replace("Desc", "SnBContent");
+			System.out.println(arrayAfter);
+					
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return json;
+	}		
+	
+/*	获取求购信息
+函数名：GetQGList
+	传入的参数
+	名称	类型	说明	备注
+	StartDate	string	开始时间	以创建时间为准
+	EndDate	string	结束时间	以创建时间为准
+	Pageindex	int	当前页数	
+	Pagesize	int	当前条数	
+	返回JSON格式如下：
+	{ “ Pageindex “:1, “ PageCount “:10, RecordCount “:10,”dataList”:
+		[{
+			“Id”:1,
+			“ProductName”:”小麦”,
+	“Price “:”面议”,
+	“ContectName”:”周先生”,
+	“ContentPhone”:”0711-3611645”,
+	“BeginTime”:”2012-9-7”,
+	“EndTime”:”2012-10-7”,
+	“Desc”:”湖北鄂州市周先生大量求购小麦”
+		},{
+*/	
+	public String GetBuyList(int pageIndex, int pageSize, int status, String startDate, String endDate) {
+		String json = "";
+		JSONArray arrayBefore = null;
+		JSONArray arrayAfter = null;
+       try {
+        	json = eAppAgentSoap.getQGList(pageIndex, pageSize, status, startDate, endDate);
+        	json = JSONObject.fromObject(json).getString("dataList");  //[{},{},{}]
+        	arrayBefore = JSONArray.fromObject(json);//转换为未添加属性的array
+	
+			arrayAfter = new JSONArray();
+			//为每一个array中的object添加属性
+        	for(int i = 0; i < arrayBefore.size(); i++) {
+        	    JSONObject temp = arrayBefore.getJSONObject(i);
+         		temp.put("SnBType", "1");
+          		temp.put("SnBImage", "");//为object添加三个信息田园未提供的属性
+          		temp.put("SnBArea", "暂无");//为object添加三个信息田园未提供的属性
+         		arrayAfter.add(i, temp);
+        	}        	
+        	json = arrayAfter.toString();  //[{},{},{}]
+
+			json = json.replace("ProductName", "SnBTitle");
+			json = json.replace("ContectName", "SnBPublisher");
+			json = json.replace("Price", "SnBPrice");
+			json = json.replace("BeginTime", "SnBTime");
+			json = json.replace("ContentPhone", "SnBPhone");
+			json = json.replace("Desc", "SnBContent");
+					
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return json;
+	}		
+	
+/*	获取问题信息
+函数名:GetWTList
+传入的参数
+名称	类型	说明	备注
+StartDate	string	开始时间	以创建时间为准
+EndDate	string	结束时间	以创建时间为准
+Pageindex	int	当前页数	
+Pagesize	int	当前条数	
+CatalogId	Int	类别编号	
+返回JSON格式如下：
+{ “ Pageindex “:1, “ PageCount “:10, RecordCount “:10,”dataList”:
+	[{
+		“Id”:1,
+		“title”:”我家母猪眼睛长了一颗红肉，出眼屎，流泪，怎么办”,
+“desc “:” 我家母猪眼睛眼角处长了一颗红肉，出眼屎，流泪，是怎么回事？（已怀孕80天了）求高指教，感谢”,
+		“Catalog “:”家禽”,
+“Status”:1
+	},{
+		“Id”:2,
+		“title”:”我家母猪眼睛长了一颗红肉，出眼屎，流泪，怎么办”,
+“desc “:” 我家母猪眼睛眼角处长了一颗红肉，出眼屎，流泪，是怎么回事？（已怀孕80天了）求高指教，感谢”,
+		“Catalog “:”家禽”,
+“Status”:1
+	}]
+}
+	private String QnAType;
+	private String QContent;
+	private String QPublisher;
+	private String QPhone;
+	private String QTime;
+	private String QImage;
+	private String AContent;
+	private String APublisher;
+	private String APhone;
+	private String ATime;
+	private String AImage;
+
+	*/	
+	public String GetQuestionList(int pageIndex, int pageSize, int catalogId, String startDate, String endDate) {
+		String json = "";
+		JSONArray arrayBefore = null;
+		JSONArray arrayAfter = null;
+       try {
+    	   json = eAppAgentSoap.getWTList(pageIndex, pageSize, catalogId, startDate, endDate);//Catalog	表示问题类别
+    	   json = JSONObject.fromObject(json).getString("dataList");  //[{},{},{}]
+    	   arrayBefore = JSONArray.fromObject(json);//转换为未添加属性的array
+	
+    	   
+			arrayAfter = new JSONArray();
+			//为每一个array中的object添加属性
+        	for(int i = 0; i < arrayBefore.size(); i++) {
+        	    JSONObject temp = arrayBefore.getJSONObject(i);
+        	    if(temp.getString("Catalog").equals("家禽"))
+        	    	temp.put("QnAType", "11");//养殖生产
+        	    else
+        	    	temp.put("QnAType", "1");//其他类型....
+         		temp.put("QPublisher", "信息田园用户");
+         		temp.put("QPhone", "暂无");
+         		temp.put("QTime", "暂无");
+         		temp.put("QImage", "");
+         		
+          		temp.put("AContent", GetAnswer(temp.getInt("Id")));
+         		temp.put("APublisher", "");
+         		temp.put("APhone", "");
+         		temp.put("ATime", "");
+         		temp.put("AImage", "");
+         		arrayAfter.add(i, temp);
+        	}        	
+        	json = arrayAfter.toString();  
+
+			json = json.replace("desc", "QContent");
+					
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return json;
+	}		
+
+	public String GetAnswer(int id) {
+		String answer = "";
+		String json = "";
+		JSONArray array = null;
+       try {
+    	   json = eAppAgentSoap.getWDInfo(id);
+    	   //System.out.println("answer array "+id + " " + json);
+    	   array = JSONArray.fromObject(json);//转换为未添加属性的array
+	
+			//为每一个array中的object添加属性
+    	   int rec=0;
+        	for(int i = 0; i < array.size(); i++) {
+        	    JSONObject temp = array.getJSONObject(i);
+         		if(temp.getInt("IsBase")==1)//最佳答案
+         			answer = "最佳答案：" + temp.getString("Adesc") + answer + "\n";
+         		else{
+         			rec++;
+         			answer = answer + "回答" + rec + ":" + temp.getString("Adesc") + "\n";
+         		}
+        	}      
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return answer;
+	}	
+	
+	public String GetAnswerList(int id) {
+		String json = "";
+		JSONArray arrayBefore = null;
+		JSONArray arrayAfter = null;
+       try {
+    	   json = eAppAgentSoap.getWDInfo(id);
+    	   arrayBefore = JSONArray.fromObject(json);//转换为未添加属性的array
+ 	   
+		   arrayAfter = new JSONArray();
+			//为每一个array中的object添加属性
+        	for(int i = 0; i < arrayBefore.size(); i++) {
+        	    JSONObject temp = arrayBefore.getJSONObject(i);
+         		
+         		temp.put("APublisher", "");
+         		temp.put("APhone", "");
+         		temp.put("ATime", "");
+         		temp.put("AImage", "");
+         		arrayAfter.add(i, temp);
+        	}        	
+        	json = arrayAfter.toString();  
+
+			json = json.replace("Adesc ", "AContent");
+					
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return json;
+	}		
+	
+	
+    /** 
+     * 得到几天后的时间 
+     */  
+    public Date getDateAfter(Date d, int day) {  
+        Calendar now = Calendar.getInstance();  
+        now.setTime(d);  
+        now.set(Calendar.DATE, now.get(Calendar.DATE) + day);  
+        return now.getTime();  
+    }   	
+    /** 
+     * 得到几天前的时间 
+     */  
+    public Date getDateBefore(Date d, int day) {  
+        Calendar now = Calendar.getInstance();  
+        now.setTime(d);  
+        now.set(Calendar.DATE, now.get(Calendar.DATE) - day);  
+        return now.getTime();  
+    }  
 	
 }
-//userLogin

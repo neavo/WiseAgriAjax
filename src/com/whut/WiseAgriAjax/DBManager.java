@@ -1,9 +1,9 @@
 package com.whut.WiseAgriAjax;
 
-import java.sql.* ;
+import java.sql. * ;
 import java.util.ArrayList;
 import java.util.List;
-import com.whut.ZhiHuiBean.*;
+import com.whut.ZhiHuiBean. * ;
 import org.apache.commons.dbutils.DbUtils;
 import net.sf.json.JSONArray;
 
@@ -30,7 +30,7 @@ public class DBManager {
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
-
+		
 		try {
 			eConnection = GetConnection();
 			eStatement = eConnection.createStatement();
@@ -39,27 +39,26 @@ public class DBManager {
 				data = data + eResultSet.getString(Key);
 			}
 			data = data.replace("null", "");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
+		}
 		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
+		}
 		return data;
 	}
 	
 	// 获取客户端列表
-	public String GetAppList(String SQL){
+	public String GetAppList(String SQL) {
 		String json = "";
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
 		
-	    List<App> apps = new ArrayList<App>();
-	    App app = null;
+		List < App > apps = new ArrayList < App > ();
+		App app = null;
 		
 		try {
 			eConnection = GetConnection();
@@ -67,38 +66,36 @@ public class DBManager {
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
 				app = new App();
-			    app.setType("app");
-			    app.setId(eResultSet.getString("appid"));
-			    app.setName(eResultSet.getString("appname"));
-			    app.setIconUrl(eResultSet.getString("imageurl1"));
-			    app.setLocation(eResultSet.getString("companyarea"));
-			    app.setStyle("");
-			    apps.add(app);
+				app.setType("app");
+				app.setId(eResultSet.getString("appid"));
+				app.setName(eResultSet.getString("appname"));
+				app.setIconUrl(eResultSet.getString("imageurl1"));
+				app.setLocation(eResultSet.getString("companyarea"));
+				app.setStyle("");
+				apps.add(app);
 			}
-		    json = json + JSONArray.fromObject(apps).toString();
-			json = json.replace("null", "");			
-		}
-		catch (Exception e)	{
+			json = json + JSONArray.fromObject(apps).toString();
+			json = json.replace("null", "");
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
+		}
 		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
+		}
 		return json;
 	}
 	
 	// 获取频道列表
-	
 	public String GetCategoryList(String SQL) {
 		String json = "";
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
 		
-	    List<Category> categorys = new ArrayList<Category>();
-	    Category category = null;
+		List < Category > categorys = new ArrayList < Category > ();
+		Category category = null;
 		
 		try {
 			eConnection = GetConnection();
@@ -106,46 +103,45 @@ public class DBManager {
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
 				category = new Category();
-			    category.setType("category");
-			    category.setId(eResultSet.getString("categoryid"));
-			    category.setName(eResultSet.getString("categoryname"));
-			    category.setIconUrl(eResultSet.getString("categoryimageurl"));
-			    category.setLocation("");
-			    
+				category.setType("category");
+				category.setId(eResultSet.getString("categoryid"));
+				category.setName(eResultSet.getString("categoryname"));
+				category.setIconUrl(eResultSet.getString("categoryimageurl"));
+				category.setLocation("");
+				
 				if (eResultSet.getString("parentid").equals("0")) {
-				    category.setStyle("parentCategory");
-				} 
-				else{
+					category.setStyle("parentCategory");
+				} else {
 					String categoryStyle = eResultSet.getString("flag");
-					if (categoryStyle.equals("0")){
-					    category.setStyle("newsCategory");
-					}
-					if (categoryStyle.equals("1") || categoryStyle.equals("2")) {
-					    category.setStyle("SnBCategory");
-					}
-					if (categoryStyle.equals("3")) {
-					    category.setStyle("QnACategory");
-					}
-					if (categoryStyle.equals("7")) {
-					    category.setStyle("DoSnB");
-					}
-					if (categoryStyle.equals("8")) {
-					    category.setStyle("DoQnA");
-					}
+					if (categoryStyle.equals("0")) {
+						category.setStyle("newsCategory");
+					} else if (categoryStyle.equals("1") || categoryStyle.equals("2")) {
+						category.setStyle("SnBCategory");
+					} else if (categoryStyle.equals("3")) {
+						category.setStyle("QnACategory");
+					} else if (categoryStyle.equals("4")) {
+						category.setStyle("ExpertCategory");
+					} else if (categoryStyle.equals("7")) {
+						category.setStyle("DoSnB");
+					} else if (categoryStyle.equals("8")) {
+						category.setStyle("DoQnA");
+					} else if (categoryStyle.equals("10")) {
+						category.setStyle("WebLink");
+					} else
+						category.setStyle("");
 				}
-			    categorys.add(category);
+				categorys.add(category);
 			}
-		    json = json + JSONArray.fromObject(categorys).toString();
-			json = json.replace("null", "");			
-		}
-		catch (Exception e)	{
+			json = json + JSONArray.fromObject(categorys).toString();
+			json = json.replace("null", "");
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
+		}
 		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
+		}
 		return json;
 	}
 	
@@ -155,11 +151,11 @@ public class DBManager {
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
-			
-		List<News> news = new ArrayList<News>();
+		
+		List < News > news = new ArrayList < News > ();
 		News eNews = null;
-			
-		try{
+		
+		try {
 			eConnection = GetConnection();
 			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
@@ -173,19 +169,18 @@ public class DBManager {
 				eNews.setVideoUrl(eResultSet.getString("videourl"));
 				eNews.setImageUrl(eResultSet.getString("imageurlall"));
 				eNews.setNewsContent(eResultSet.getString("textcontent"));
-			    news.add(eNews);
+				news.add(eNews);
 			}
-		    json = json + JSONArray.fromObject(news).toString();
-			json = json.replace("null", "");			
-		}
-		catch (Exception e){
+			json = json + JSONArray.fromObject(news).toString();
+			json = json.replace("null", "");
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
-		finally{
+		}
+		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
+		}
 		return json;
 	}
 	
@@ -195,11 +190,11 @@ public class DBManager {
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
-			
-		List<SupplyBuy> supplybuys = new ArrayList<SupplyBuy>();
+		
+		List < SupplyBuy > supplybuys = new ArrayList < SupplyBuy > ();
 		SupplyBuy supplybuy = null;
-			
-		try{
+		
+		try {
 			eConnection = GetConnection();
 			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
@@ -216,21 +211,19 @@ public class DBManager {
 				supplybuy.setSnBContent(eResultSet.getString("SnBContent"));
 				supplybuys.add(supplybuy);
 			}
-		    json = json + JSONArray.fromObject(supplybuys).toString();
-			json = json.replace("snB", "SnB");			
-			json = json.replace("null", "");			
-		}
-		catch (Exception e){
+			json = json + JSONArray.fromObject(supplybuys).toString();
+			json = json.replace("snB", "SnB");
+			json = json.replace("null", "");
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
-		finally{
+		}
+		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
+		}
 		return json;
 	}
-	
 	
 	// 获取供求信息类型
 	public String GetSnBType(String SQL) {
@@ -238,11 +231,11 @@ public class DBManager {
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
-			
-		List<SupplyBuyType> supplybuytypes = new ArrayList<SupplyBuyType>();
+		
+		List < SupplyBuyType > supplybuytypes = new ArrayList < SupplyBuyType > ();
 		SupplyBuyType supplybuytype = null;
-			
-		try{
+		
+		try {
 			eConnection = GetConnection();
 			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
@@ -252,38 +245,17 @@ public class DBManager {
 				supplybuytype.setValue(eResultSet.getString("value"));
 				supplybuytypes.add(supplybuytype);
 			}
-		    json = json + JSONArray.fromObject(supplybuytypes).toString();
-			json = json.replace("null", "");			
-		}
-		catch (Exception e){
+			json = json + JSONArray.fromObject(supplybuytypes).toString();
+			json = json.replace("null", "");
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
-		finally{
+		}
+		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
-		return json;
-	}
-	
-	// 发布供求信息
-	public int DoSnB(String SQL) {
-		int record = 0;
-		Connection eConnection = null;
-		Statement eStatement = null;
-		try{
-			eConnection = GetConnection();
-			eStatement = eConnection.createStatement();
-			record = eStatement.executeUpdate(SQL);
 		}
-		catch (Exception e){
-			System.out.println(e.getMessage());
-		} 
-		finally{
-			DbUtils.closeQuietly(eStatement);
-			DbUtils.closeQuietly(eConnection);
-		}		
-		return record;
+		return json;
 	}
 	
 	// 获取问答信息
@@ -292,11 +264,11 @@ public class DBManager {
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
-			
-		List<Question> questions = new ArrayList<Question>();
+		
+		List < Question > questions = new ArrayList < Question > ();
 		Question question = null;
-			
-		try{
+		
+		try {
 			eConnection = GetConnection();
 			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
@@ -315,19 +287,20 @@ public class DBManager {
 				question.setAImage(eResultSet.getString("AImage"));
 				questions.add(question);
 			}
-		    json = json + JSONArray.fromObject(questions).toString();
-			json = json.replace("null", "");			
-		}
-		catch (Exception e){
+			json = json + JSONArray.fromObject(questions).toString();
+			json = json.replace("qnA", "QnA");
+			json = json.replace("null", "");
+			
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
-		finally{
+		}
+		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
-		return json;
 		}
+		return json;
+	}
 	
 	// 获取问答信息类型
 	public String GetQnAType(String SQL) {
@@ -335,11 +308,11 @@ public class DBManager {
 		Connection eConnection = null;
 		Statement eStatement = null;
 		ResultSet rs = null;
-			
-		List<QuestionType> questiontypes = new ArrayList<QuestionType>();
+		
+		List < QuestionType > questiontypes = new ArrayList < QuestionType > ();
 		QuestionType questiontype = null;
-			
-		try{
+		
+		try {
 			eConnection = GetConnection();
 			eStatement = eConnection.createStatement();
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
@@ -349,38 +322,182 @@ public class DBManager {
 				questiontype.setValue(eResultSet.getString("value"));
 				questiontypes.add(questiontype);
 			}
-		    json = json + JSONArray.fromObject(questiontypes).toString();
-			json = json.replace("null", "");			
-		}
-		catch (Exception e){
+			json = json + JSONArray.fromObject(questiontypes).toString();
+			json = json.replace("null", "");
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
-		finally{
+		}
+		finally {
 			DbUtils.closeQuietly(rs);
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
+		}
+		return json;
+	}
+
+	// 获取问答专家类型
+	public String GetQnAExpert(String SQL) {
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+		
+		List < QuestionExpert > eQuestionExpertList = new ArrayList < QuestionExpert > ();
+		QuestionExpert eQuestionExpert = null;
+		
+		try {
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			
+			eQuestionExpert = new QuestionExpert();
+			eQuestionExpert.setText("全部");
+			eQuestionExpert.setValue("0");
+			eQuestionExpertList.add(eQuestionExpert);
+			
+			while (eResultSet.next()) {
+				eQuestionExpert = new QuestionExpert();
+				eQuestionExpert.setText(eResultSet.getString("text"));
+				eQuestionExpert.setValue(eResultSet.getString("value"));
+				eQuestionExpertList.add(eQuestionExpert);
+			}
+			
+			json = json + JSONArray.fromObject(eQuestionExpertList).toString();
+			json = json.replace("null", "");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}
 		return json;
 	}
 	
-	// 发布问答信息
-	public int DoQnA(String SQL) {
+	// 获取专家列表类型
+	public String GetExpertList(String SQL) {
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+		
+		List < Expert > experts = new ArrayList < Expert > ();
+		Expert expert = null;
+		
+		try {
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				expert = new Expert();
+				expert.setExConent(eResultSet.getString("ExConent"));
+				expert.setExImage(eResultSet.getString("ExImage"));
+				expert.setExName(eResultSet.getString("ExName"));
+				expert.setExPhone(eResultSet.getString("ExPhone"));
+				expert.setExPosition(eResultSet.getString("ExPosition"));
+				expert.setExTitle(eResultSet.getString("ExTitle"));
+				experts.add(expert);
+			}
+			json = json + JSONArray.fromObject(experts).toString();
+			json = json.replace("ex", "Ex");
+			json = json.replace("null", "");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}
+		return json;
+	}
+	
+	// 获取目标频道的地址
+	public String GetWebLink(String SQL) {
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+		
+		List < WebLink > weblinks = new ArrayList < WebLink > ();
+		WebLink weblink = null;
+		
+		try {
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				weblink = new WebLink();
+				weblink.setWebLink(eResultSet.getString("WebLink"));
+				weblinks.add(weblink);
+			}
+			json = json + JSONArray.fromObject(weblinks).toString();
+			json = json.replace("webLink", "WebLink");
+			json = json.replace("null", "");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}
+		return json;
+	}
+
+	//获取反馈列表
+	public String GetFeedBack(String SQL) {
+		String json = "";
+		Connection eConnection = null;
+		Statement eStatement = null;
+		ResultSet rs = null;
+		
+		List < FeedBack > feedBacks = new ArrayList < FeedBack > ();
+		FeedBack feedBack = null;
+		
+		try {
+			eConnection = GetConnection();
+			eStatement = eConnection.createStatement();
+			ResultSet eResultSet = eStatement.executeQuery(SQL);
+			while (eResultSet.next()) {
+				feedBack = new FeedBack();
+				feedBack.setQContent(eResultSet.getString("QContent"));
+				feedBack.setQTime(eResultSet.getString("QTime"));
+				feedBack.setAContent(eResultSet.getString("AContent"));
+				feedBack.setATime(eResultSet.getString("ATime"));
+				feedBacks.add(feedBack);
+			}
+			json = json + JSONArray.fromObject(feedBacks).toString();
+			json = json.replace("null", "");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		finally {
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(eStatement);
+			DbUtils.closeQuietly(eConnection);
+		}
+		return json;
+	}
+	
+	// 执行数据插入
+	public int DoInsert(String SQL) {
 		int record = 0;
 		Connection eConnection = null;
 		Statement eStatement = null;
 		
-		try{
+		try {
 			eConnection = GetConnection();
 			eStatement = eConnection.createStatement();
 			record = eStatement.executeUpdate(SQL);
-		}
-		catch (Exception e){
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} 
-		finally{
+		}
+		finally {
 			DbUtils.closeQuietly(eStatement);
 			DbUtils.closeQuietly(eConnection);
-		}		
+		}
 		return record;
 	}
 	

@@ -31,7 +31,7 @@
 			 + " \"" + appid + "\"," + " \"" + (Integer.parseInt(SnBFlag) - 1) + "\"," + " \"" + SnBType + "\""
 			 + " ) ";
 		
-		if (eDBManager.DoSnB(SQL) != 0) {
+		if (eDBManager.DoInsert(SQL) != 0) {
 			json = "{ \"success\" : \"true\", \"msg\" : \"发布成功\"}";
 		} else {
 			json = "{ \"success\" : \"false\", \"msg\" : \"发布失败\"}";

@@ -5,8 +5,6 @@
 	try {
 		DBManager eDBManager = new DBManager();
 		String categoryId = request.getParameter("categoryId");
-		String start = request.getParameter("start");
-		String limit = request.getParameter("limit");
 		String appId = eDBManager.GetValue("SELECT appid FROM categorys WHERE categoryid = " + categoryId + " LIMIT 1", "appid");
 		String SQL = "SELECT"
 			 + " publishtype.typename AS QnAType,"
@@ -14,8 +12,8 @@
 			 + " answer.answer AS AContent, answer.publisher AS APublisher, answer.telephone AS APhone, answer.publishtime AS ATime, answer.imageurl1 AS AImage"
 			 + " FROM question, answer, publishtype"
 			 + " WHERE question.questionid = answer.questionid AND question.questiontype = publishtype.typeid AND question.appid = " + appId
-			 + " ORDER BY question.publishtime DESC"
-			 + " LIMIT " + start + ", " + limit;
+			 + " ORDER BY question.publishtime DESC";
+		
 		json = eDBManager.GetQnAList(SQL);
 	} catch (Exception e) {
 		System.out.println(e.getMessage());

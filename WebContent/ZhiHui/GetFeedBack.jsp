@@ -4,21 +4,18 @@
 	String json = "";
 	try {
 		DBManager eDBManager = new DBManager();
-		String categoryId = request.getParameter("categoryId");
-
+		String appId = request.getParameter("appId");
 		String SQL = "SELECT"
-			 + " publishtype.typename AS SnBType,"
-			 + " publish.title AS SnBTitle, publish.publisher AS SnBPublisher, publish.price AS SnBPrice, publish.area AS SnBArea,"
-			 + " publish.imageurl1 AS SnBImage, publish.publishtime AS SnBTime, publish.telephone AS SnBPhone, publish.content AS SnBContent"
-			 + " FROM publish, publishtype"
-			 + " WHERE publish.level = 1 AND publish.typeid = publishtype.typeid AND publish.categoryid = " + categoryId
-			 + " ORDER BY publishtime DESC";
-			
-		json = eDBManager.GetSnBList(SQL);
+			 + " comment.comment AS QContent, comment.publishtime AS QTime,"
+			 + " feedback.content AS AContent, feedback.publishtime AS ATime"
+			 + " FROM comment, feedback"
+			 + " WHERE comment.commentid = feedback.commentid AND comment.appid = " + appId
+			 + " ORDER BY comment.publishtime DESC";
+		json = eDBManager.GetFeedBack(SQL); 
 	} catch (Exception e) {
 		System.out.println(e.getMessage());
 	};
-	
+
 	if (request.getParameter("callback") != null) {
 		response.setContentType("text/javascript;charset=UTF-8");
 		response.getWriter().write(request.getParameter("callback") + "(" + json + ");");
@@ -27,4 +24,4 @@
 		response.getWriter().write(json);
 	};
 
- %>
+%>

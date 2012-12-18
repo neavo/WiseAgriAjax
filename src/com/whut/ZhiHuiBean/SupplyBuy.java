@@ -28,7 +28,7 @@ public class SupplyBuy implements java.io.Serializable {
 	private String SnBPhone;
 	private String SnBContent;
 	public String getSnBType() {
-		return SnBType;
+		return SnBType; 
 	}
 	public void setSnBType(String snBType) {
 		SnBType = snBType;

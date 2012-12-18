@@ -352,6 +352,103 @@ CatalogId	Int	类别编号
 		return json;
 	}		
 	
+/*	
+ * 添加供求信息	
+函数名：AddGY
+传入的参数
+名称	类型	说明	备注
+mid	Int	发布人会员编号	
+product_name	Int	产品名称	
+low_price	double	价格，低	
+hight_price	double	价格，高	
+is_discuss	String	是否面议	1：面议。0：有薪资范围；
+**********************product_place_id	Int	地区编号	
+product_desc	String	产品描述	
+begin_time	Datetime	有效时间-开始时间	
+end_time	Datetime	有效时间-结束时间	
+contact_phone	String	联系电话	
+contact_name	String	联系人	
+
+函数名：AddQG
+传入的参数
+名称	类型	说明	备注
+mid	Int	发布人会员编号	
+product_name	Int	产品名称	
+low_price	double	价格，低	
+hight_price	double	价格，高	
+is_discuss	String	是否面议	1：面议。0：有薪资范围；
+product_desc	String	产品描述	
+begin_time	Datetime	有效时间-开始时间	
+end_time	Datetime	有效时间-结束时间	
+contact_phone	String	联系电话	
+contact_name	String	联系人	
+
+
+返回JSON格式如下：
+{"Code":"0"}
+返回参数说明：
+名称	类型	说明	备注
+Code	int	1: 添加成功；0：失败	
+
+ * 
+ * The method addGY(int, String, 
+ * 					double, double, 
+ * 					String, int, 
+ * 					String, XMLGregorianCalendar, 
+ * 					XMLGregorianCalendar, String, 
+ * 					String)
+ * 
+ * The method addQG(int, String, 
+ * 				double, double, 
+ * 				String, 
+ * 				String, XMLGregorianCalendar, 
+ * 				XMLGregorianCalendar, String, 
+ * 				String)
+ * 
+ * */
+	public int AddSupplyBuy(int flag, String mid, String productName, String lowPrice, 
+			String highPrice, String isDiscuss, String productPlaceId, String productDesc,
+			String beginTimePara, String endTimePara, String contactPhone, String contactName) {
+		
+		int rec = 0;
+		String json = "";
+        GregorianCalendar cal = new GregorianCalendar();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+
+        try {
+			//字符串转日期
+	        date = sdf.parse(beginTimePara);
+	        cal.setTime(date);
+	        XMLGregorianCalendar beginTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);       
+	     	
+	        //date = getDateAfter(date, 10);
+	        date = sdf.parse(endTimePara);
+	        cal.setTime(date);
+	        XMLGregorianCalendar endTime = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);       
+	        
+	        if(flag == 0)//0供应 1求购
+				json = eAppAgentSoap.addGY(Integer.parseInt(mid), productName, 
+									Double.parseDouble(lowPrice), Double.parseDouble(highPrice),
+									isDiscuss, Integer.parseInt(productPlaceId), 
+									productDesc, beginTime, 
+									endTime, contactPhone, 
+									contactName);
+			else
+				json = eAppAgentSoap.addQG(Integer.parseInt(mid), productName, 
+									Double.parseDouble(lowPrice), Double.parseDouble(highPrice),
+									isDiscuss, 
+									productDesc,beginTime, 
+									endTime, contactPhone, 
+									contactName);
+			JSONObject jsonob = JSONObject.fromObject(json);  
+			rec = jsonob.getInt("Code");// 城市  
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return rec;
+		
+	}
 	
     /** 
      * 得到几天后的时间 

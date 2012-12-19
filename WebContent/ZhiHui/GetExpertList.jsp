@@ -6,13 +6,18 @@ pageEncoding = "utf-8" import = "com.whut.WiseAgriAjax.DBManager" %>
 	try {
 		DBManager eDBManager = new DBManager();
 		String categoryId = request.getParameter("categoryId");
+		int start = Integer.parseInt(request.getParameter("start"));
+		int limit = Integer.parseInt(request.getParameter("limit"));
 		String appId = eDBManager.GetValue("SELECT appid FROM categorys WHERE categoryid = " + categoryId + " LIMIT 1", "appid");
+		
 		String SQL = "SELECT"
 			 + " name AS ExName, imageurl AS ExImage, title AS ExTitle,"
 			 + " position AS ExPosition, telephone AS ExPhone, content AS ExConent"
 			 + " FROM expert"
 			 + " WHERE  level = 1  AND appid = " + appId
-			 + " ORDER BY datetime DESC";
+			 + " ORDER BY datetime DESC"
+			 + " LIMIT " + start + ", " + limit;
+		
 		json = eDBManager.GetExpertList(SQL); 
 	} catch (Exception e) {
 		System.out.println(e.getMessage());

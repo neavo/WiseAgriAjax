@@ -5,12 +5,17 @@
 	try {
 		DBManager eDBManager = new DBManager();
 		String appId = request.getParameter("appId");
+		int start = Integer.parseInt(request.getParameter("start"));
+		int limit = Integer.parseInt(request.getParameter("limit"));
+		
 		String SQL = "SELECT"
 			 + " comment.comment AS QContent, comment.publishtime AS QTime,"
 			 + " feedback.content AS AContent, feedback.publishtime AS ATime"
 			 + " FROM comment, feedback"
 			 + " WHERE comment.commentid = feedback.commentid AND comment.appid = " + appId
-			 + " ORDER BY comment.publishtime DESC";
+			 + " ORDER BY comment.publishtime DESC"
+			 + " LIMIT " + start + ", " + limit;
+		
 		json = eDBManager.GetFeedBack(SQL); 
 	} catch (Exception e) {
 		System.out.println(e.getMessage());

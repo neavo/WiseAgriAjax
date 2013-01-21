@@ -1,25 +1,9 @@
 package com.whut.ZhiHuiBean;
 
-/**
- * Apps entity. @author MyEclipse Persistence Tools
-"QnAType" + "\"" + " : " + "\"" + eResultSet.getString("QnAType") + "\"" + ",";
-"QContent" + "\"" + " : " + "\"" + eResultSet.getString("QContent") + "\"" + ",";
-"QPublisher" + "\"" + " : " + "\"" + eResultSet.getString("QPublisher") + "\"" + ",";
-"QPhone" + "\"" + " : " + "\"" + eResultSet.getString("QPhone") + "\"" + ",";
-"QTime" + "\"" + " : " + "\"" + eResultSet.getString("QTime") + "\"" + ",";
-"QImage" + "\"" + " : " + "\"" + eResultSet.getString("QImage") + "\"" + ",";
-"AContent" + "\"" + " : " + "\"" + eResultSet.getString("AContent") + "\"" + ",";
-"APublisher" + "\"" + " : " + "\"" + eResultSet.getString("APublisher") + "\"" + ",";
-"APhone" + "\"" + " : " + "\"" + eResultSet.getString("APhone") + "\"" + ",";
-"ATime" + "\"" + " : " + "\"" + eResultSet.getString("ATime") + "\"" + ",";
-"AImage" + "\"" + " : " + "\"" + eResultSet.getString("AImage") + "\"" + ",";
-
- * 
- */
-
 public class Question implements java.io.Serializable {
-
-	// Fields
+	
+	private static final long serialVersionUID = -1747596756659752878L;
+	
 	private String QnAType;
 	private String QContent;
 	private String QPublisher;
@@ -31,6 +15,7 @@ public class Question implements java.io.Serializable {
 	private String APhone;
 	private String ATime;
 	private String AImage;
+	
 	public String getQnAType() {
 		return QnAType;
 	}
@@ -97,7 +82,7 @@ public class Question implements java.io.Serializable {
 	public void setAImage(String aImage) {
 		AImage = aImage;
 	}
-
+	
 	// Constructors
-
+	
 }

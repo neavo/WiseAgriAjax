@@ -1,26 +1,16 @@
 package com.whut.ZhiHuiBean;
 
-/**
- * Apps entity. @author MyEclipse Persistence Tools
-"ExName" + "\"" + " : " + "\"" + eResultSet.getString("ExName") + "\"" + ",";
-"ExImage" + "\"" + " : " + "\"" + eResultSet.getString("ExImage") + "\"" + ",";
-"ExTitle" + "\"" + " : " + "\"" + eResultSet.getString("ExTitle") + "\"" + ",";
-"ExPosition" + "\"" + " : " + "\"" + eResultSet.getString("ExPosition") + "\"" + ",";
-"ExPhone" + "\"" + " : " + "\"" + eResultSet.getString("ExPhone") + "\"" + ",";
-"ExConent" + "\"" + " : " + "\"" + eResultSet.getString("ExConent") + "\"" + ",";
-
-
- */
-
 public class Expert implements java.io.Serializable {
-
-	// Fields
+	
+	private static final long serialVersionUID = 4388324246940846239L;
+	
 	private String ExName;
 	private String ExImage;
 	private String ExTitle;
 	private String ExPosition;
 	private String ExPhone;
 	private String ExConent;
+	
 	public String getExName() {
 		return ExName;
 	}

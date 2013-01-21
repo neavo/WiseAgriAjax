@@ -25,6 +25,7 @@ public class DBManager {
 		return eConnection;
 	}
 	
+	// 获得单一返回值数据
 	public String GetValue(String SQL, String Key) {
 		String data = "";
 		Connection eConnection = null;
@@ -161,6 +162,7 @@ public class DBManager {
 			ResultSet eResultSet = eStatement.executeQuery(SQL);
 			while (eResultSet.next()) {
 				eNews = new News();
+				eNews.setNewsId(eResultSet.getString("id"));
 				eNews.setCategoryId(eResultSet.getString("categoryid"));
 				eNews.setNewsTitle(eResultSet.getString("title"));
 				eNews.setNewsPublisher(eResultSet.getString("publisher"));
@@ -169,6 +171,7 @@ public class DBManager {
 				eNews.setVideoUrl(eResultSet.getString("videourl"));
 				eNews.setImageUrl(eResultSet.getString("imageurlall"));
 				eNews.setNewsContent(eResultSet.getString("textcontent"));
+				eNews.setSkimNum(eResultSet.getString("skimnum"));
 				news.add(eNews);
 			}
 			json = json + JSONArray.fromObject(news).toString();
@@ -334,7 +337,7 @@ public class DBManager {
 		}
 		return json;
 	}
-
+	
 	// 获取问答专家类型
 	public String GetQnAExpert(String SQL) {
 		String json = "";
@@ -354,7 +357,6 @@ public class DBManager {
 			eQuestionExpert.setText("全部");
 			eQuestionExpert.setValue("0");
 			eQuestionExpertList.add(eQuestionExpert);
-			
 			while (eResultSet.next()) {
 				eQuestionExpert = new QuestionExpert();
 				eQuestionExpert.setText(eResultSet.getString("text"));
@@ -445,7 +447,7 @@ public class DBManager {
 		}
 		return json;
 	}
-
+	
 	//获取反馈列表
 	public String GetFeedBack(String SQL) {
 		String json = "";

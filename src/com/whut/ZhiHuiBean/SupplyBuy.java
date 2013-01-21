@@ -1,23 +1,9 @@
 package com.whut.ZhiHuiBean;
 
-/**
- * Apps entity. @author MyEclipse Persistence Tools
-"SnBType" + "\"" + " : " + "\"" + eResultSet.getString("SnBType") + "\"" + ",";
-"SnBTitle" + "\"" + " : " + "\"" + eResultSet.getString("SnBTitle") + "\"" + ",";
-"SnBPublisher" + "\"" + " : " + "\"" + eResultSet.getString("SnBPublisher") + "\"" + ",";
-"SnBPrice" + "\"" + " : " + "\"" + eResultSet.getString("SnBPrice") + "\"" + ",";
-"SnBArea" + "\"" + " : " + "\"" + eResultSet.getString("SnBArea") + "\"" + ",";
-"SnBImage" + "\"" + " : " + "\"" + eResultSet.getString("SnBImage") + "\"" + ",";
-"SnBTime" + "\"" + " : " + "\"" + eResultSet.getString("SnBTime") + "\"" + ",";
-"SnBPhone" + "\"" + " : " + "\"" + eResultSet.getString("SnBPhone") + "\"" + ",";
-"SnBContent" + "\"" + " : " + "\"" + eResultSet.getString("SnBContent") + "\"" + ",";
-
- * 
- */
-
 public class SupplyBuy implements java.io.Serializable {
-
-	// Fields
+	
+	private static final long serialVersionUID = 8400861849551749437L;
+	
 	private String SnBType;
 	private String SnBTitle;
 	private String SnBPublisher;
@@ -27,8 +13,9 @@ public class SupplyBuy implements java.io.Serializable {
 	private String SnBTime;
 	private String SnBPhone;
 	private String SnBContent;
+	
 	public String getSnBType() {
-		return SnBType; 
+		return SnBType;
 	}
 	public void setSnBType(String snBType) {
 		SnBType = snBType;
@@ -81,5 +68,5 @@ public class SupplyBuy implements java.io.Serializable {
 	public void setSnBContent(String snBContent) {
 		SnBContent = snBContent;
 	}
-
+	
 }

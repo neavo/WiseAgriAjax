@@ -1,23 +1,10 @@
-package com.whut.ZhiHuiBean;
-
-/**
- * Newscontent entity. @author MyEclipse Persistence Tools
- * 
-"categoryId" + "\"" + " : " + "\"" + eResultSet.getString("categoryid") + "\"" + ",";
-"newsTitle" + "\"" + " : " + "\"" + eResultSet.getString("title") + "\"" + ",";
-"newsPublisher" + "\"" + " : " + "\"" + eResultSet.getString("publisher") + "\"" + ",";
-"dateTime" + "\"" + " : " + "\"" + eResultSet.getString("datetime") + "\"" + ",";
-"iconUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurl1") + "\"" + ",";
-"videoUrl" + "\"" + " : " + "\"" + eResultSet.getString("videourl") + "\"" + ",";
-"imageUrl" + "\"" + " : " + "\"" + eResultSet.getString("imageurlall") + "\"" + ",";
-"newsContent" + "\"" + " : " + "\"" + eResultSet.getString("textcontent") + "\"" + ",";
- * 
- */
+﻿package com.whut.ZhiHuiBean;
 
 public class News implements java.io.Serializable {
-
-	// Fields
-
+	
+	private static final long serialVersionUID = 4378221226291024870L;
+	
+	private String newsId;
 	private String categoryId;
 	private String newsTitle;
 	private String newsPublisher;
@@ -26,6 +13,14 @@ public class News implements java.io.Serializable {
 	private String videoUrl;
 	private String imageUrl;
 	private String newsContent;
+	private String skimNum;
+	
+	public String getNewsId() {
+		return newsId;
+	}
+	public void setNewsId(String newsId) {
+		this.newsId = newsId;
+	}
 	public String getCategoryId() {
 		return categoryId;
 	}
@@ -74,7 +69,11 @@ public class News implements java.io.Serializable {
 	public void setNewsContent(String newsContent) {
 		this.newsContent = newsContent;
 	}
-
-
-
+	public String getSkimNum() {
+		return skimNum;
+	}
+	public void setSkimNum(String skimNum) {
+		this.skimNum = skimNum;
+	}
+	
 }

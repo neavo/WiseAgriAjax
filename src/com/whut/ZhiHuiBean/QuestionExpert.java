@@ -1,19 +1,12 @@
 package com.whut.ZhiHuiBean;
 
-/**
- * Apps entity. @author MyEclipse Persistence Tools
-"text" + "\"" + " : " + "\"" + eResultSet.getString("text") + "\"" + ",";
-"value" + "\"" + " : " + "\"" + eResultSet.getString("value") + "\"" + ",";
-
-
- * 
- */
-
 public class QuestionExpert implements java.io.Serializable {
-
-	// Fields
+	
+	private static final long serialVersionUID = 6312195402764624212L;
+	
 	private String text;
 	private String value;
+	
 	public String getText() {
 		return text;
 	}

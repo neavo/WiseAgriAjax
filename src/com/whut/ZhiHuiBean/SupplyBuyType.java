@@ -1,19 +1,12 @@
 package com.whut.ZhiHuiBean;
 
-/**
- * Apps entity. @author MyEclipse Persistence Tools
-"text" + "\"" + " : " + "\"" + eResultSet.getString("text") + "\"" + ",";
-"value" + "\"" + " : " + "\"" + eResultSet.getString("value") + "\"" + ",";
-	
-
- * 
- */
-
 public class SupplyBuyType implements java.io.Serializable {
-
-	// Fields
+	
+	private static final long serialVersionUID = -7503190713497431166L;
+	
 	private String text;
 	private String value;
+	
 	public String getText() {
 		return text;
 	}
